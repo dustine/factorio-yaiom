@@ -1,0 +1,9 @@
+{
+    "name": "yaiom",
+    "version": "0.1.0",
+    "factorio_version": "0.16",
+    "title": "Yet Another Infinite Ore Mechanic",
+    "author": "Dustine",
+    "dependencies": ["base >= 0.16.0"],
+    "description": "Inspired by Rimworld's ground-penetrating scanner, use satellites to uncover hidden ore patches that require both fracking and special refining."
+}
