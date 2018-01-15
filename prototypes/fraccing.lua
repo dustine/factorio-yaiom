@@ -6,7 +6,10 @@ local category = {
 local drill = {
   type = "mining-drill",
   name = "yaiom-fracturing-drill",
-  icon = "__base__/graphics/icons/pumpjack.png",
+  icons = {{
+    icon = "__base__/graphics/icons/pumpjack.png",
+    tint = util.color "00bfff7f"
+  }},
   icon_size = 32,
   flags = {"placeable-neutral", "player-creation"},
   minable = {mining_time = 1, result = "yaiom-fracturing-drill"},
@@ -14,9 +17,8 @@ local drill = {
   max_health = 200,
   corpse = "big-remnants",
   dying_explosion = "medium-explosion",
-  collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
-  selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
-  drawing_box = {{-1.6, -2.5}, {1.5, 1.6}},
+  collision_box = {{-0.8, -0.8}, {0.8, 0.8}},
+  selection_box = {{-1, -1}, {1, 1}},
   working_sound = {
     sound = {
       filename = "__base__/sound/burner-mining-drill.ogg",
@@ -27,10 +29,10 @@ local drill = {
   energy_source = {
     type = "electric",
     -- will produce this much * energy pollution units per tick
-    emissions = 0.15 / 1.5,
+    emissions = 0.2 / 1.5,
     usage_priority = "secondary-input"
   },
-  energy_usage = "90kW",
+  energy_usage = "340kW",
   input_fluid_box = {
     production_type = "input-output",
     pipe_picture = assembler2pipepictures(),
@@ -39,8 +41,9 @@ local drill = {
     height = 2,
     base_level = -1,
     pipe_connections = {
-      {position = {-2, 0}},
-      {position = {2, 0}}
+      {position = {-1.5, 0.5}},
+      {position = {1.5, 0.5}},
+      {position = {0.5, 1.5}}
     }
   },
   output_fluid_box = {
@@ -48,41 +51,40 @@ local drill = {
     base_level = 1,
     pipe_covers = pipecoverspictures(),
     pipe_connections = {
-      {position = {0, -2}},
-      {position = {0, 2}}
+      {position = {-0.5, -1.5}}
     }
   },
-  mining_speed = 0.5,
+  mining_speed = 1,
   mining_power = 2,
-  resource_searching_radius = 0.49,
+  resource_searching_radius = 0.99,
   vector_to_place_result = {0, 0},
   module_specification = {
     module_slots = 2
   },
   radius_visualisation_picture = {
-    filename = "__base__/graphics/entity/pumpjack/pumpjack-radius-visualization.png",
+    filename = "__base__/graphics/entity/electric-mining-drill/electric-mining-drill-radius-visualization.png",
     width = 12,
     height = 12
   }
 }
-
-local function recursive(t)
-  for name, value in pairs(t) do
-    if name == "run_mode" then
-      t.name = "forward"
-    elseif type(value) == "table" then
-      recursive(value)
-    end
+drill.animations = table.deepcopy(data.raw["mining-drill"]["burner-mining-drill"].animations)
+for _, a in pairs(drill.animations) do
+  for _, l in pairs(a.layers) do
+    l.tint = util.color "00bfff"
+    if l.hr_version then l.hr_version.tint = util.color "00bfff" end
   end
-  return t
 end
-drill.animations = recursive(table.deepcopy(data.raw["mining-drill"]["burner-mining-drill"].animations))
+log(serpent.block(drill.icons))
+
 
 local item = {
   type = "item",
   name = "yaiom-fracturing-drill",
   flags = {"goes-to-quickbar"},
-  icon = "__base__/graphics/icons/pumpjack.png",
+  icons = {{
+    icon = "__base__/graphics/icons/pumpjack.png",
+    tint = util.color "00bfff"
+  }},
   icon_size = 32,
   stack_size = 20,
   place_result = "yaiom-fracturing-drill",
@@ -132,7 +134,7 @@ local technology = {
       {"space-science-pack", 1}
     },
     time = 60,
-    count = 4000
+    count = 1000
   },
   order = "z[yaiom]-b"
 }
