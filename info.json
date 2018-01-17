@@ -1,9 +1,10 @@
 {
     "name": "yaiom",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "factorio_version": "0.16",
     "title": "Yet Another Infinite Ore Mechanic",
     "author": "Dustine",
     "dependencies": ["base >= 0.16.0"],
-    "description": "Inspired by Rimworld's ground-penetrating scanner, use satellites to uncover hidden ore patches that require both fracking and special refining to process, giving you either infinite copper or iron (with traces of coal)."
+    "homepage": "https://forums.factorio.com/viewtopic.php?f=93&t=56737",
+    "description": "Inspired by Rimworld's ground-penetrating scanner, use enhanced radars to uncover hidden ore patches that require both fracking and special refining to process, giving you either infinite copper or iron (with traces of coal)."
 }
