@@ -14,7 +14,7 @@ local control = {
 local entity = {
   type = "resource",
   name = "yaiom-ferricupric",
-  icon = "__yaiom__/graphics/ferricupric-icon.png",
+  icon = "__yaiom__/graphics/ferricupric/icon.png",
   icon_size = 32,
   flags = {"placeable-neutral"},
   collision_box = {{-0.45, -0.45}, {0.45, 0.45}},
@@ -51,9 +51,9 @@ local entity = {
     control = "yaiom-ferricupric",
     default_enabled = false,
     sharpness = 1,
-    richness_multiplier = 20000, -- 3000
-    richness_multiplier_distance_bonus = 500, -- 30
-    richness_base = 5000, -- 500
+    richness_multiplier = 5000, -- 3000
+    richness_multiplier_distance_bonus = 200, -- 30
+    richness_base = 2000, -- 500
     coverage = 0.003 / 3, -- (0, 1], 0.0002 / 3
     -- coverage = 1,
     peaks = {
@@ -67,14 +67,14 @@ local entity = {
   stage_counts = {0},
   stages = {
     sheet = {
-      filename = "__yaiom__/graphics/ferricupric.png",
+      filename = "__yaiom__/graphics/ferricupric/entity.png",
       priority = "extra-high",
       width = 64,
       height = 64,
       frame_count = 1,
       variation_count = 1,
       hr_version = {
-        filename = "__yaiom__/graphics/hr-ferricupric.png",
+        filename = "__yaiom__/graphics/ferricupric/hr-entity.png",
         priority = "extra-high",
         width = 128,
         height = 128,
@@ -89,7 +89,7 @@ local entity = {
 
 local fluid = table.deepcopy(data.raw.fluid["light-oil"])
 fluid.name = "yaiom-ferricupric"
-fluid.icon = "__yaiom__/graphics/ferricupric-fluid.png"
+fluid.icon = "__yaiom__/graphics/ferricupric/fluid.png"
 fluid.base_color = util.color "c3ad7d"
 -- fluid.flow_color = util.color "a78a4d"
 fluid.flow_color = util.color "735f35"
@@ -103,7 +103,7 @@ local recipe_clean = {
   type = "recipe",
   name = "yaiom-ferricupric-cleaning",
   category = "chemistry",
-  icon = "__yaiom__/graphics/ferricupric-cleaning-icon.png",
+  icon = "__yaiom__/graphics/ferricupric/recipe-cleaning.png",
   icon_size = 32,
   enabled = false,
   energy_required = 6,
@@ -130,14 +130,18 @@ local technology_basic = {
   type = "technology",
   name = "yaiom-ferricupric",
   icon_size = 128,
-  icon = "__base__/graphics/technology/nuclear-power.png",
+  icon = "__yaiom__/graphics/ferricupric/technology.png",
   effects = {
+    {
+      type = "unlock-recipe",
+      recipe = "yaiom-fracking-drill"
+    },
     {
       type = "unlock-recipe",
       recipe = "yaiom-ferricupric-cleaning"
     }
   },
-  prerequisites = {"yaiom-fracking"},
+  prerequisites = {"yaiom-fracking", "advanced-material-processing-2"},
   unit = {
     ingredients = {
       {"science-pack-1", 1},
@@ -158,7 +162,7 @@ local technology_basic = {
 local item = {
   type = "item",
   name = "yaiom-ferricupric",
-  icon = "__yaiom__/graphics/ferricupric-icon.png",
+  icon = "__yaiom__/graphics/ferricupric/icon.png",
   icon_size = 32,
   flags = {},
   stack_size = 50,
@@ -171,7 +175,7 @@ local recipe_process = {
   name = "yaiom-ferricupric-processing",
   category = "oil-processing",
   enabled = false,
-  energy_required = 6,
+  energy_required = 5,
   ingredients = {
     {type = "fluid", name = "water", amount = 50},
     {type = "fluid", name = "yaiom-ferricupric", amount = 100}
@@ -179,7 +183,7 @@ local recipe_process = {
   results = {
     {type = "fluid", name = "light-oil", amount = 35},
     {type = "item", name = "yaiom-ferricupric", amount = 10},
-    {type = "item", name = "coal", amount = 10}
+    {type = "item", name = "coal", amount = 5}
   },
   main_product = "yaiom-ferricupric",
   subgroup = "fluid-recipes",
@@ -234,7 +238,7 @@ local technology_advanced = {
   type = "technology",
   name = "yaiom-advanced-ferricupric",
   icon_size = 128,
-  icon = "__base__/graphics/technology/nuclear-power.png",
+  icon = "__yaiom__/graphics/ferricupric/technology-advanced.png",
   effects = {
     {
       type = "unlock-recipe",
@@ -258,7 +262,7 @@ local technology_advanced = {
       {"production-science-pack", 1},
       {"high-tech-science-pack", 1}
     },
-    time = 60,
+    time = 45,
     count = 2000
   },
   order = "z[yaiom]-b[ferricupric]-b"

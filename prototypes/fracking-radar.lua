@@ -8,11 +8,11 @@ entity.icons = {
   }
 }
 entity.minable.result = "yaiom-fracking-radar"
-entity.energy_per_sector = (25000 / 60 * 10.25) .. "MJ"
+entity.energy_per_sector = (120 * 10.25) .. "MJ"
 -- entity.energy_per_sector = (10.25).."MJ"
 entity.max_distance_of_sector_revealed = 0
 entity.max_distance_of_nearby_sector_revealed = 0
--- entity.energy_per_nearby_scan = "1MJ"
+entity.energy_per_nearby_scan = "1MJ"
 entity.energy_usage = "10.25MW"
 entity.pictures.layers[1].tint = util.color "00bfff"
 entity.pictures.layers[1].hr_version.tint = util.color "00bfff"

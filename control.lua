@@ -14,7 +14,7 @@ local function get_spiral(start_chunk, width)
   local y = 0
   local dx = 0
   local dy = -1
-  for i = 1, math.pow(2 * (width + 1), 2) do
+  for i = 1, math.pow(2 * width + 1, 2) do
     table.insert(result, {x = x + start_chunk.x, y = y + start_chunk.y})
     if x == y or (x < 0 and x == -y) or (x > 0 and x == 1 - y) then
       dx, dy = -dy, dx
@@ -118,7 +118,6 @@ local function on_sector_scanned(event)
   local id = radar.unit_number
   local targets = radars[id]
   if not targets then
-    log("generated")
     radars[id] = get_spiral(event.chunk_position, 3)
     targets = radars[id]
   end

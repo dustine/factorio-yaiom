@@ -1,31 +1,9 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.2.1
-Date: 17.01.2018
-  Minor features:
-    - Productivity modules can be used with ferricupric cleaning/processing (not refining)
-  Fixed:
-    - Couldn't open fracking drills interface
----------------------------------------------------------------------------------------------------
-Version: 0.2.0
+Version: 1.0.0
 Date: 17.01.2018
   Major features:
-    - Moved the detection and usage of ferricupric earlier in the game (after oil/uranium)
-    - Bedrock scanners now look for ore deposits
-  Minor features:
-    - Better icon graphics
-    - Added a "decal" for ferricupric ore
-  Balancing:
-    - Moved one of the mining fluid input for the miners so they now form a cardinal
-    - Made ferricupric more advantageous (better yields per uranium, more coal/oil returns)
-  Deprecated:
-    - Satellite scanning speed boosting
-    - Renaming of all the prototypes (sorry)
----------------------------------------------------------------------------------------------------
-Version: 0.1.0
-Date: 15.01.2018
-  Major features:
+    - Hidden ores that require deep soil scanners to reveal them, and time
     - Hydraulic cracking, allows to mine hidden ores with high pressure liquid injection
-    - Satellite coverage uncovers hidden ore spots over time on charted chunks, the more satellites the faster it'll be
-    - Ferricupric ore, special hidden ore that can be refined into copper and iron, with traces of coal
+    - Ferricupric ore, special hidden ore that can be refined into copper and iron, and coal with further research
   Minor features:
     - Setting to disable satellite hidden ore discovery

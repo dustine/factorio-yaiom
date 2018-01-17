@@ -26,7 +26,7 @@ local drill = {
   energy_source = {
     type = "electric",
     -- will produce this much * energy pollution units per tick
-    emissions = 0.2 / 1.5,
+    emissions = 0.15,
     usage_priority = "secondary-input"
   },
   energy_usage = "340kW",
@@ -78,7 +78,7 @@ local item = {
   flags = {"goes-to-quickbar"},
   icons = {
     {
-      icon = "__base__/graphics/icons/pumpjack.png",
+      icon = "__base__/graphics/icons/burner-mining-drill.png",
       tint = util.color "00bfff"
     }
   },
