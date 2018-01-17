@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.1
+Date: 17.01.2018
+  Minor features:
+    - Productivity modules can be used with ferricupric cleaning/processing (not refining)
+  Fixed:
+    - Couldn't open fracking drills interface
+---------------------------------------------------------------------------------------------------
 Version: 0.2.0
 Date: 17.01.2018
   Major features:

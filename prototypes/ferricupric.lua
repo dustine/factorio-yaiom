@@ -260,4 +260,9 @@ local technology_advanced = {
   order = "z[yaiom]-b[ferricupric]-b"
 }
 
+for _, module in pairs({"productivity-module", "productivity-module-2", "productivity-module-3"}) do
+  table.insert(data.raw.module[module].limitation, "yaiom-ferricupric-cleaning")
+  table.insert(data.raw.module[module].limitation, "yaiom-ferricupric-processing")
+end
+
 data:extend {noise_layer, control, entity, fluid, recipe_clean, technology_basic, item, recipe_process, recipe_iron, recipe_copper, technology_advanced}

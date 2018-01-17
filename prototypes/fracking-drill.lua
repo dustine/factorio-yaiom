@@ -1,50 +1,70 @@
-local entity = table.deepcopy(data.raw["mining-drill"]["burner-mining-drill"])
-entity.name = "yaiom-fracking-drill"
-entity.icon = nil
-entity.icons = {{
+local drill = {
+  type = "mining-drill",
+  name = "yaiom-fracking-drill",
+  icons = {{
     icon = "__base__/graphics/icons/pumpjack.png",
     tint = util.color "00bfff"
-  }}
-entity.minable.result = "yaiom-fracking-drill"
-entity.resource_categories = {"yaiom-fracking"}
-entity.energy_source = {
+  }},
+  icon_size = 32,
+  flags = {"placeable-neutral", "player-creation"},
+  minable = {mining_time = 1, result = "yaiom-fracking-drill"},
+  resource_categories = {"yaiom-fracking"},
+  max_health = 200,
+  corpse = "big-remnants",
+  dying_explosion = "medium-explosion",
+  collision_box = {{-0.8, -0.8}, {0.8, 0.8}},
+  selection_box = {{-1, -1}, {1, 1}},
+  working_sound = {
+    sound = {
+      filename = "__base__/sound/burner-mining-drill.ogg",
+      volume = 0.8
+    }
+  },
+  vehicle_impact_sound = {filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65},
+  energy_source = {
     type = "electric",
     -- will produce this much * energy pollution units per tick
     emissions = 0.2 / 1.5,
     usage_priority = "secondary-input"
-  }
-entity.energy_usage = "340kW"
-entity.input_fluid_box = {
-  production_type = "input-output",
-  pipe_picture = assembler2pipepictures(),
-  pipe_covers = pipecoverspictures(),
-  base_area = 1,
-  height = 2,
-  base_level = -1,
-  pipe_connections = {
-    {position = {-1.5, 0.5}},
-    {position = {1.5, -0.5}},
-    {position = {0.5, 1.5}}
+  },
+  energy_usage = "340kW",
+  input_fluid_box = {
+    production_type = "input-output",
+    pipe_picture = assembler2pipepictures(),
+    pipe_covers = pipecoverspictures(),
+    base_area = 1,
+    height = 2,
+    base_level = -1,
+    pipe_connections = {
+      {position = {-1.5, 0.5}},
+      {position = {1.5, -0.5}},
+      {position = {0.5, 1.5}}
+    }
+  },
+  output_fluid_box = {
+    base_area = 1,
+    base_level = 1,
+    pipe_covers = pipecoverspictures(),
+    pipe_connections = {
+      {position = {-0.5, -1.5}}
+    }
+  },
+  mining_speed = 1,
+  mining_power = 2,
+  resource_searching_radius = 0.99,
+  vector_to_place_result = {0, 0},
+  module_specification = {
+    module_slots = 2
+  },
+  -- allowed_effects = {"consumption", "speed", "pollution"},
+  radius_visualisation_picture = {
+    filename = "__base__/graphics/entity/electric-mining-drill/electric-mining-drill-radius-visualization.png",
+    width = 12,
+    height = 12
   }
 }
-entity.output_fluid_box = {
-  base_area = 1,
-  base_level = 1,
-  pipe_covers = pipecoverspictures(),
-  pipe_connections = {
-    {position = {-0.5, -1.5}}
-  }
-}
-entity.mining_speed = 1
-entity.mining_power = 2
--- entity.resource_searching_radius = 0.99
-entity.module_slots = 2
-entity.radius_visualisation_picture = {
-  filename = "__base__/graphics/entity/electric-mining-drill/electric-mining-drill-radius-visualization.png",
-  width = 12,
-  height = 12
-}
-for _, a in pairs(entity.animations) do
+drill.animations = table.deepcopy(data.raw["mining-drill"]["burner-mining-drill"].animations)
+for _, a in pairs(drill.animations) do
   local l = a.layers[1]
   l.tint = util.color "00bfff"
   l.hr_version.tint = util.color "00bfff"
@@ -81,4 +101,4 @@ local recipe = {
   -- order = "z[yaiom]-a[drill]"
 }
 
-data:extend{entity, item, recipe}
+data:extend{drill, item, recipe}
