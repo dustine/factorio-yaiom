@@ -19,22 +19,14 @@ local technology = {
     {
       type = "unlock-recipe",
       recipe = "yaiom-fracking-radar"
-    },
-    -- {
-    --   type = "unlock-recipe",
-    --   recipe = "yaiom-ferricupric-cleaning"
-    -- }
-    -- {
-    --   type = "nothing",
-    --   effect_description = {"technology-effect.yaiom-fracturing-scan"}
-    -- }
+    }
   },
   prerequisites = {"oil-processing", "advanced-electronics-2", "advanced-material-processing-2"},
   unit = {
     ingredients = {
       {"science-pack-1", 1},
       {"science-pack-2", 1},
-      {"science-pack-3", 1},
+      {"science-pack-3", 1}
     },
     time = 30,
     count = 500

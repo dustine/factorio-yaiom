@@ -1,12 +1,14 @@
 local entity = table.deepcopy(data.raw.radar.radar)
 entity.name = "yaiom-fracking-radar"
 entity.icon = nil
-entity.icons = {{
-  icon = "__base__/graphics/icons/radar.png",
-  tint = util.color "00bfff"
-}}
+entity.icons = {
+  {
+    icon = "__base__/graphics/icons/radar.png",
+    tint = util.color "00bfff"
+  }
+}
 entity.minable.result = "yaiom-fracking-radar"
-entity.energy_per_sector = (25000/60*10.25).."MJ"
+entity.energy_per_sector = (25000 / 60 * 10.25) .. "MJ"
 -- entity.energy_per_sector = (10.25).."MJ"
 entity.max_distance_of_sector_revealed = 0
 entity.max_distance_of_nearby_sector_revealed = 0
@@ -19,16 +21,18 @@ local item = {
   type = "item",
   name = "yaiom-fracking-radar",
   flags = {"goes-to-quickbar"},
-  icons = {{
-    icon = "__base__/graphics/icons/radar.png",
-    tint = util.color "00bfff"
-  }},
+  icons = {
+    {
+      icon = "__base__/graphics/icons/radar.png",
+      tint = util.color "00bfff"
+    }
+  },
   icon_size = 32,
   stack_size = 20,
   place_result = "yaiom-fracking-radar",
   subgroup = "extraction-machine", -- ?
   -- subgroup = "defensive-structure",
-  order = "z[yaiom]-a[fracking]-b[radar]",
+  order = "z[yaiom]-a[fracking]-b[radar]"
 }
 
 local recipe = {
@@ -40,11 +44,11 @@ local recipe = {
     {"processing-unit", 5},
     {"battery", 10},
     {"steel-plate", 20},
-    {"copper-cable", 40},
+    {"copper-cable", 40}
   },
   result = "yaiom-fracking-radar",
-  enabled = false,
+  enabled = false
   -- order = "z[yaiom]-a[drill]"
 }
 
-data:extend{entity, item, recipe}
+data:extend {entity, item, recipe}

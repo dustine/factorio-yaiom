@@ -1,10 +1,12 @@
 local drill = {
   type = "mining-drill",
   name = "yaiom-fracking-drill",
-  icons = {{
-    icon = "__base__/graphics/icons/pumpjack.png",
-    tint = util.color "00bfff"
-  }},
+  icons = {
+    {
+      icon = "__base__/graphics/icons/pumpjack.png",
+      tint = util.color "00bfff"
+    }
+  },
   icon_size = 32,
   flags = {"placeable-neutral", "player-creation"},
   minable = {mining_time = 1, result = "yaiom-fracking-drill"},
@@ -74,15 +76,17 @@ local item = {
   type = "item",
   name = "yaiom-fracking-drill",
   flags = {"goes-to-quickbar"},
-  icons = {{
-    icon = "__base__/graphics/icons/pumpjack.png",
-    tint = util.color "00bfff"
-  }},
+  icons = {
+    {
+      icon = "__base__/graphics/icons/pumpjack.png",
+      tint = util.color "00bfff"
+    }
+  },
   icon_size = 32,
   stack_size = 20,
   place_result = "yaiom-fracking-drill",
   subgroup = "extraction-machine",
-  order = "b[fluids]-z[yaiom]-a[fracking]-a[drill]",
+  order = "b[fluids]-z[yaiom]-a[fracking]-a[drill]"
 }
 
 local recipe = {
@@ -97,8 +101,8 @@ local recipe = {
     {"pipe", 10}
   },
   result = "yaiom-fracking-drill",
-  enabled = false,
+  enabled = false
   -- order = "z[yaiom]-a[drill]"
 }
 
-data:extend{drill, item, recipe}
+data:extend {drill, item, recipe}

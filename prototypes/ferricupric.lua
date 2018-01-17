@@ -33,13 +33,15 @@ local entity = {
     hardness = 1,
     mining_time = 1,
     mining_particle = "stone-particle",
-    results = {{
-      type = "fluid",
-      name = "yaiom-ferricupric",
-      amount_min = 10,
-      amount_max = 10,
-      probability = 1
-    }},
+    results = {
+      {
+        type = "fluid",
+        name = "yaiom-ferricupric",
+        amount_min = 10,
+        amount_max = 10,
+        probability = 1
+      }
+    },
     fluid_amount = 10,
     required_fluid = "light-oil"
   },
@@ -54,11 +56,13 @@ local entity = {
     richness_base = 5000, -- 500
     coverage = 0.003 / 3, -- (0, 1], 0.0002 / 3
     -- coverage = 1,
-    peaks = {{
-      noise_layer = "yaiom-ferricupric",
-      noise_octaves_difference = -0.85 * 3, -- [?,?], -0.85
-      noise_persistence = 0.4, -- [0,1], 0.4
-    },},
+    peaks = {
+      {
+        noise_layer = "yaiom-ferricupric",
+        noise_octaves_difference = -0.85 * 3, -- [?,?], -0.85
+        noise_persistence = 0.4 -- [0,1], 0.4
+      }
+    }
   },
   stage_counts = {0},
   stages = {
@@ -77,7 +81,7 @@ local entity = {
         frame_count = 1,
         variation_count = 1,
         scale = 0.5
-    }
+      }
     }
   },
   map_color = util.color "00bfff"
@@ -110,7 +114,7 @@ local recipe_clean = {
   results = {
     {type = "fluid", name = "petroleum-gas", amount = 20},
     {type = "item", name = "iron-ore", amount = 1, probability = 0.9},
-    {type = "item", name = "copper-ore", amount = 1, probability = 0.9},
+    {type = "item", name = "copper-ore", amount = 1, probability = 0.9}
   },
   subgroup = "fluid-recipes",
   allow_decomposition = false,
@@ -131,7 +135,7 @@ local technology_basic = {
     {
       type = "unlock-recipe",
       recipe = "yaiom-ferricupric-cleaning"
-    },
+    }
   },
   prerequisites = {"yaiom-fracking"},
   unit = {
@@ -139,9 +143,9 @@ local technology_basic = {
       {"science-pack-1", 1},
       {"science-pack-2", 1},
       {"science-pack-3", 1},
-      {"production-science-pack", 1},
+      {"production-science-pack", 1}
     },
-    time = 60,
+    time = 30,
     count = 1000
   },
   order = "z[yaiom]-b[ferricupric]-a"
@@ -159,7 +163,7 @@ local item = {
   flags = {},
   stack_size = 50,
   subgroup = "raw-resource",
-  order = "z[yaiom]-a[ferricupric]",
+  order = "z[yaiom]-a[ferricupric]"
 }
 
 local recipe_process = {
@@ -175,11 +179,11 @@ local recipe_process = {
   results = {
     {type = "fluid", name = "light-oil", amount = 35},
     {type = "item", name = "yaiom-ferricupric", amount = 10},
-    {type = "item", name = "coal", amount = 10},
+    {type = "item", name = "coal", amount = 10}
   },
   main_product = "yaiom-ferricupric",
   subgroup = "fluid-recipes",
-  order = "a[oil-processing]-z[yaiom]-a[ferricupric]-b[processing]",
+  order = "a[oil-processing]-z[yaiom]-a[ferricupric]-b[processing]"
 }
 
 local recipe_iron = {
@@ -195,7 +199,7 @@ local recipe_iron = {
   results = {
     {type = "item", name = "iron-ore", amount = 200},
     {type = "item", name = "copper-ore", amount = 50},
-    {type = "item", name = "uranium-238", amount = 1},
+    {type = "item", name = "uranium-238", amount = 1}
   },
   icon = "__base__/graphics/icons/icons-new/iron-ore.png",
   icon_size = 32,
@@ -217,7 +221,7 @@ local recipe_copper = {
   results = {
     {type = "item", name = "copper-ore", amount = 200},
     {type = "item", name = "iron-ore", amount = 50},
-    {type = "item", name = "uranium-238", amount = 1},
+    {type = "item", name = "uranium-238", amount = 1}
   },
   icon = "__base__/graphics/icons/icons-new/copper-ore.png",
   icon_size = 32,
@@ -252,7 +256,7 @@ local technology_advanced = {
       {"science-pack-2", 1},
       {"science-pack-3", 1},
       {"production-science-pack", 1},
-      {"high-tech-science-pack", 1},
+      {"high-tech-science-pack", 1}
     },
     time = 60,
     count = 2000
@@ -265,4 +269,16 @@ for _, module in pairs({"productivity-module", "productivity-module-2", "product
   table.insert(data.raw.module[module].limitation, "yaiom-ferricupric-processing")
 end
 
-data:extend {noise_layer, control, entity, fluid, recipe_clean, technology_basic, item, recipe_process, recipe_iron, recipe_copper, technology_advanced}
+data:extend {
+  noise_layer,
+  control,
+  entity,
+  fluid,
+  recipe_clean,
+  technology_basic,
+  item,
+  recipe_process,
+  recipe_iron,
+  recipe_copper,
+  technology_advanced
+}
