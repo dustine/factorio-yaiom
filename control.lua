@@ -1,195 +1,147 @@
 MOD = {}
 MOD.name = "yaiom"
 MOD.if_name = "yaiom"
+MOD.migrations = {}
 MOD.interfaces = {}
 MOD.commands = {}
 
-local util = require "util"
+-- local util = require "util"
+local chunks, queued, radars, enabled
 
-local next, active, chunks, enabled, timers, satellites
-
--- reverse function of f(i) spiral iteration
-local function get_spiral_index(x, y)
-  local pos = x > -y
-  local max = math.max(math.abs(x), math.abs(y))
-  local index = pos and 2 * max or 2 * max + 1
-  return index * (index - 1) + (pos and 1 or -1) * (y - x)
+local function get_spiral(start_chunk, width)
+  local result = {}
+  local x = 0
+  local y = 0
+  local dx = 0
+  local dy = -1
+  for i=1, math.pow(2*(width+1), 2) do
+    table.insert(result, {x = x + start_chunk.x, y = y + start_chunk.y})
+    if x == y or (x < 0 and x == -y) or (x > 0 and x == 1-y) then
+      dx, dy = -dy, dx
+    end
+    x, y = x + dx, y + dy
+  end
+  return result
 end
 
-local function update_timer(force, tick, override)
-  local surface = game.surfaces.nauvis
-  local eyes = satellites[force.name]
-  if not override and not (eyes and eyes > 0) then
-    return
+local function scan_chunk(surface, chunk, force)
+  if not(surface and surface.valid and chunk) then return false end
+  if not surface.is_chunk_generated(chunk) then return false end
+
+  local s = surface.name
+  local x = chunk.x
+  local y = chunk.y
+  if not(chunks[s] and chunks[s][x] and chunks[s][x][y]) then return false end
+
+  table.insert(queued, {surface = surface, chunk = chunk, force = force})
+  chunks[s][x][y] = nil
+  if not next(chunks[s][x]) then chunks[s][x] = nil end
+  if not next(chunks[s]) then chunks[s] = nil end
+  return true
+end
+
+local function scan_all_chunks()
+  for _, surface in pairs(game.surfaces) do
+    surface.regenerate_entity("yaiom-ferricupric")
   end
-  if not tick then
-    -- tick = 500 * 60 * math.floor(math.log(satellites[force.name]+1)/math.log(2))
-    -- log(surface.ticks_per_day)
-    tick = math.floor(surface.ticks_per_day / math.log(eyes + 1) * math.log(2))
-    -- log(tick)
-    tick = game.tick + tick
-  -- log(tick)
+  for _, force in pairs(game.forces) do
+    force.rechart()
   end
 
-  while timers[tick] do
-    tick = tick + 1
-  end
-  timers[tick] = force
-  next = next.tick < tick and next or {tick = tick, force = force}
-  global.next = next
+  global.chunks = {}
+  chunks = global.chunks
 end
 
 function MOD.commands.yaiom_scan(event)
   local player = game.players[event.player_index]
-  local number = tonumber(event.parameter) or 1
-  if player and player.admin then
-    for i = 1, number do
-      update_timer(player.force, 0, true)
-    end
-  end
+  if player and player.admin then scan_all_chunks(player.force) end
 end
 
-script.on_event(
-  defines.events.on_chunk_generated,
-  function(event)
-    local surface = event.surface
-    if not (enabled and surface and surface.valid and surface.name == "nauvis") then
-      return
-    end
 
-    local area = event.area
-    local coords = {
-      x = math.floor(area.left_top.x / 32),
-      y = math.floor(area.left_top.y / 32)
-    }
-    area.left_top.x = area.left_top.x + 0.5
-    area.left_top.y = area.left_top.y + 0.5
-    area.right_bottom.x = area.right_bottom.x - 0.5
-    area.right_bottom.y = area.right_bottom.y - 0.5
-    local center = {
-      x = math.floor(area.left_top.x + (area.right_bottom.x - area.left_top.x) / 2),
-      y = math.floor(area.left_top.y + (area.right_bottom.y - area.left_top.y) / 2)
-    }
 
-    -- ready the structure
-    local chunk = {
-      center = center,
-      area = area,
-      coords = coords,
-      index = get_spiral_index(coords.x, coords.y)
-    }
+local function on_chunk_generated(event)
+  if not enabled then return end
 
-    for _, entity in pairs(surface.find_entities_filtered {name = "yaiom-ferricupric", area = area}) do
-      if entity.valid then
-        entity.destroy()
-      end
-    end
-    -- -- shuffle them (looks cooler on reveal)
-    -- for i = #new_chunks, 2 do
-    --   j = math.random(i)
-    --   new_chunks[i], new_chunks[j] = new_chunks[j], new_chunks[i]
-    -- end
+  local surface = event.surface
+  if not (surface and surface.valid) then return end
 
-    -- index chunks
-    for i = 1, #chunks do
-      if chunks[i].index < chunk.index then
-        table.insert(chunks, i, chunk)
-        return
-      elseif chunks[i].index == chunk.index then
-        return
-      end
-    end
-    table.insert(chunks, chunk)
+  local area = event.area
+
+  local x = math.floor(area.left_top.x / 32)
+  local y = math.floor(area.left_top.y / 32)
+  area.left_top.x = area.left_top.x + 0.5
+  area.left_top.y = area.left_top.y + 0.5
+  area.right_bottom.x = area.right_bottom.x - 0.5
+  area.right_bottom.y = area.right_bottom.y - 0.5
+
+  for _, entity in pairs(surface.find_entities_filtered{
+    name = "yaiom-ferricupric", area = area
+  }) do
+    if entity.valid then entity.destroy() end
   end
-)
 
-script.on_event(
-  defines.events.on_rocket_launched,
-  function(event)
-    local rocket = event.rocket
-    if not (rocket and rocket.valid and rocket.force) then
-      return
-    end
-
-    local force = rocket.force
-    local name = force.name
-
-    local prev = satellites[name]
-    satellites[name] = force.get_item_launched("satellite")
-    if active and enabled and (not prev or prev < 1) and satellites[name] and satellites[name] >= 1 then
-      update_timer(force, 0)
-    end
-  end
-)
-
-script.on_event(
-  defines.events.on_research_finished,
-  function(event)
-    if not(event.research and event.research.valid and event.research.name == "yaiom-hydraulic-fracturing") then
-      return
-    end
-
-    active = true
-    global.active = active
-    update_timer(event.research.force, 0)
-  end
-)
-
-local function update_next()
-  local tick = math.huge
-  for t, f in pairs(timers) do
-    if f and f.valid and tick > t then
-      tick = t
-    elseif not (f and f.valid) then
-      timers[t] = nil
-    end
-  end
-  next = {tick = tick, force = timers[tick] or nil}
-  global.next = next
+  local s = surface.name
+  chunks[s] = chunks[s] or {}
+  chunks[s][x] = chunks[s][x] or {}
+  chunks[s][x][y] = true
 end
 
-script.on_event(
-  defines.events.on_tick,
-  function(event)
-    if not (active and enabled) then
-      return
-    end
+local function on_sector_scanned(event)
+  if not enabled then return end
 
-    if not next then
-      update_next()
-    end
-    if next.tick <= event.tick then
-      local force = next.force
-      if force and force.valid then
-        local surface = game.surfaces.nauvis
+  local radar = event.radar
+  if not(radar and radar.valid and radar.name == "yaiom-fracking-radar") then return end
 
-        for i = #chunks, 1, -1 do
-          local chunk = chunks[i]
-          if force.is_chunk_charted(surface, chunk.coords) then
-            surface.regenerate_entity({"yaiom-ferricupric"}, {chunk.coords})
-            force.chart(surface, chunk.area)
-            local count = surface.count_entities_filtered({name = "yaiom-ferricupric", area = chunk.area})
-            if count > 0 then
-              game.print("Scan finished, found ore!", util.color("00ccff"))
-            -- else
-            -- game.print("active finished.")
-            end
-            -- log("Scan finished.")
-            table.remove(chunks, i)
-            break
-          end
-        end
-        timers[next.tick] = nil
-        update_timer(force)
-      else
-        -- log("expunge")
-        timers[next.tick] = nil
-      end
-
-      update_next()
-    end
+  local id = radar.unit_number
+  local targets = radars[id]
+  if not targets then
+    log("generated")
+    radars[id] = get_spiral(event.chunk_position, 3)
+    targets = radars[id]
   end
-)
+
+  local surface = radar.surface
+  local force = radar.force
+  for c, chunk in pairs(targets) do
+    targets[c] = nil
+    if scan_chunk(surface, chunk, force) then return end
+  end
+
+  radars[id] = nil
+  radar.order_deconstruction(force)
+end
+
+local function on_tick(event)
+  if not(enabled and event.tick%6 == 0) then return end
+
+  local id, target = next(queued)
+  if not id then return end
+  queued[id] = nil
+
+  local surface = target.surface
+  if not surface.valid then return end
+  local chunk = target.chunk
+  local force = target.force
+
+  surface.regenerate_entity("yaiom-ferricupric", {chunk})
+  if force and force.valid then
+    force.chart(surface, {
+      left_top = {
+        x = chunk.x*32+16,
+        y = chunk.y*32+16
+      },
+      right_bottom = {
+        x = chunk.x*32+16,
+        y = chunk.y*32+16
+      }
+    })
+  end
+
+end
+
+script.on_event(defines.events.on_chunk_generated, on_chunk_generated)
+script.on_event(defines.events.on_sector_scanned, on_sector_scanned)
+script.on_event(defines.events.on_tick, on_tick)
 
 --############################################################################--
 --                                 INTERFACE                                  --
@@ -199,48 +151,44 @@ local function reload_settings()
   local prev = global.enabled
   global.enabled = not settings.global["yaiom-reveal-all"].value
 
-  if prev and not global.enabled and prev ~= global.enabled then
+  if prev and not global.enabled then
     -- turned it off
-    game.surfaces.nauvis.regenerate_entity({"yaiom-ferricupric"})
-    for _, force in pairs(game.forces) do
-      force.rechart()
-    end
-    global.chunks = {}
-    chunks = global.chunks
+    scan_all_chunks()
   end
 end
 
 local function on_load()
-  next = global.next
-  active = global.active
   chunks = global.chunks
-  timers = global.timers
+  queued = global.queued
+  radars = global.radars
   enabled = global.enabled
-  satellites = global.satellites
 end
 
-script.on_init(
-  function()
-    global.chunks = {}
-    global.timers = {}
-    global.satellites = {}
+local function on_init()
+  global._changed = {}
+  global.chunks = {}
+  global.queued = {}
+  global.radars = {}
 
+  reload_settings()
+  on_load()
+
+  for ver, _ in pairs(MOD.migrations) do
+    global._changed[ver] = true
+  end
+end
+
+script.on_init(on_init)
+script.on_load(on_load)
+
+local function on_runtime_mod_setting_changed(event)
+  if event.setting:match("^"..MOD.if_name) then
     reload_settings()
     on_load()
   end
-)
+end
 
-script.on_load(on_load)
-
-script.on_event(
-  defines.events.on_runtime_mod_setting_changed,
-  function(event)
-    if event.setting == "yaiom-reveal-all" then
-      reload_settings()
-      on_load()
-    end
-  end
-)
+script.on_event(defines.events.on_runtime_mod_setting_changed, on_runtime_mod_setting_changed)
 
 remote.add_interface(MOD.if_name, MOD.interfaces)
 for name, command in pairs(MOD.commands) do
@@ -251,22 +199,20 @@ end
 --                                 MIGRATION                                  --
 --------------------------------------------------------------------------------
 
-MOD.migrations = {}
-
-script.on_configuration_changed(
-  function(event)
-    if event.mod_changes[MOD.name] then
-      if not global._changed then
-        global._changed = {}
-      end
-      for ver, migration in pairs(MOD.migrations) do
-        if not global._changed[ver] and migration(event) then
-          global._changed[ver] = true
-        end
+local function on_configuration_changed(event)
+  if event.mod_changes[MOD.name] then
+    if not global._changed then
+      global._changed = {}
+    end
+    for ver, migration in pairs(MOD.migrations) do
+      if not global._changed[ver] and migration(event) then
+        global._changed[ver] = true
       end
     end
-
-    reload_settings()
-    on_load()
   end
-)
+
+  reload_settings()
+  on_load()
+end
+
+script.on_configuration_changed(on_configuration_changed)

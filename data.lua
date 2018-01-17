@@ -1,2 +1,2 @@
-require "prototypes.fraccing"
+require "prototypes.fracking"
 require "prototypes.ferricupric"
