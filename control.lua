@@ -6,7 +6,24 @@ MOD.interfaces = {}
 MOD.commands = {}
 
 -- local util = require "util"
-local chunks, queued, radars, enabled
+local chunks, queued, radars, enabled, random
+
+-- local function get_spiral_index(x, y)
+--   local pos = x > -y
+--   local max = math.max(math.abs(x), math.abs(y))
+--   local index = pos and 2 * max or 2 * max + 1
+--   return index * (index - 1) + (pos and 1 or -1) * (y - x)
+-- end
+
+-- local function get_spiral_coords(i)
+--   local n = math.floor(math.sqrt(i) + 0.5)
+--   local space = math.abs(n * n - i) - n
+--   local dir = (n % 2 == 0 and 0.5) or -0.5
+--   return {
+--     x = (space + n * n - i - n % 2) * dir,
+--     y = (-space + n * n - i - n % 2) * dir
+--   }
+-- end
 
 local function get_spiral(start_chunk, width)
   local result = {}
@@ -14,7 +31,7 @@ local function get_spiral(start_chunk, width)
   local y = 0
   local dx = 0
   local dy = -1
-  for i = 1, math.pow(2 * width + 1, 2) do
+  for _ = 1, math.pow(2 * width + 1, 2) do
     table.insert(result, {x = x + start_chunk.x, y = y + start_chunk.y})
     if x == y or (x < 0 and x == -y) or (x > 0 and x == 1 - y) then
       dx, dy = -dy, dx
@@ -24,6 +41,7 @@ local function get_spiral(start_chunk, width)
   return result
 end
 
+-- queues a chunk and removes it from the chunks list (chunks requiring regen)
 local function scan_chunk(surface, chunk, force)
   if not (surface and surface.valid and chunk) then
     return false
@@ -103,6 +121,8 @@ local function on_chunk_generated(event)
   chunks[s] = chunks[s] or {}
   chunks[s][x] = chunks[s][x] or {}
   chunks[s][x][y] = true
+  random[s] = random[s] or {}
+  table.insert(random[s], {x = x, y = y})
 end
 
 local function on_sector_scanned(event)
@@ -111,28 +131,83 @@ local function on_sector_scanned(event)
   end
 
   local radar = event.radar
-  if not (radar and radar.valid and radar.name == "yaiom-fracking-radar") then
+  if not (radar and radar.valid) then
     return
-  end
-
-  local id = radar.unit_number
-  local targets = radars[id]
-  if not targets then
-    radars[id] = get_spiral(event.chunk_position, 3)
-    targets = radars[id]
   end
 
   local surface = radar.surface
   local force = radar.force
-  for c, chunk in pairs(targets) do
-    targets[c] = nil
-    if scan_chunk(surface, chunk, force) then
+
+  if radar.name == "yaiom-fracking-radar" then
+    local id = radar.unit_number
+    local targets = radars[id]
+    if not targets then
+      radars[id] = get_spiral(event.chunk_position, 3)
+      targets = radars[id]
+    end
+
+    for c, chunk in pairs(targets) do
+      targets[c] = nil
+      if scan_chunk(surface, chunk, force) then
+        return
+      end
+    end
+
+    radars[id] = nil
+    radar.order_deconstruction(force)
+  elseif radar.name == "yaiom-fracking-beacon" then
+    local s = surface.name
+    random[s] = random[s] or {}
+    local targets = random[s]
+    if not (next(targets)) then
       return
     end
+
+    local satellites = force.get_item_launched("satellite") or 0
+    if satellites < 1 then
+      return
+    end
+    satellites = math.ceil(math.log(satellites) / math.log(2))
+    if satellites < 1 then
+      satellites = 1
+    end
+
+    for i = #targets, 1, -1 do
+      local j = math.random(i)
+      targets[i], targets[j] = targets[j], targets[i]
+
+      local chunk = targets[i]
+      if force.is_chunk_charted(surface, chunk) then
+        table.remove(targets, i)
+        if scan_chunk(surface, chunk, force) then
+          satellites = satellites - 1
+          if satellites < 1 then
+            return
+          end
+        end
+      end
+    end
+  end
+end
+
+local function on_build_entity(event)
+  local entity = event.created_entity
+  if not (entity and entity.valid and entity.name == "yaiom-fracking-beacon") then
+    return
   end
 
-  radars[id] = nil
-  radar.order_deconstruction(force)
+  local surface = entity.surface
+  local force = entity.force
+  for _, beacon in pairs(
+    surface.find_entities_filtered {
+      name = "yaiom-fracking-beacon",
+      force = force
+    }
+  ) do
+    if beacon ~= entity then
+      beacon.die()
+    end
+  end
 end
 
 local function on_tick(event)
@@ -153,7 +228,7 @@ local function on_tick(event)
   local chunk = target.chunk
   local force = target.force
 
-  surface.regenerate_entity("yaiom-ferricupric", {chunk})
+  surface.regenerate_entity({"yaiom-ferricupric"}, {chunk})
   if force and force.valid then
     force.chart(
       surface,
@@ -173,11 +248,26 @@ end
 
 script.on_event(defines.events.on_chunk_generated, on_chunk_generated)
 script.on_event(defines.events.on_sector_scanned, on_sector_scanned)
+script.on_event(defines.events.on_robot_built_entity, on_build_entity)
+script.on_event(defines.events.on_built_entity, on_build_entity)
 script.on_event(defines.events.on_tick, on_tick)
 
 --############################################################################--
 --                                 INTERFACE                                  --
 --############################################################################--
+
+MOD.migrations["1.0.1"] = function()
+  global.random = {}
+  for surface, sc in pairs(chunks) do
+    random[surface] = {}
+    local rs = random[surface]
+    for x, xc in pairs(sc) do
+      for y, _ in pairs(xc) do
+        table.insert(rs, {x = x, y = y})
+      end
+    end
+  end
+end
 
 local function reload_settings()
   local prev = global.enabled
@@ -193,6 +283,7 @@ local function on_load()
   chunks = global.chunks
   queued = global.queued
   radars = global.radars
+  random = global.random
   enabled = global.enabled
 end
 
@@ -201,6 +292,7 @@ local function on_init()
   global.chunks = {}
   global.queued = {}
   global.radars = {}
+  global.random = {}
 
   reload_settings()
   on_load()
@@ -231,6 +323,10 @@ end
 --                                 MIGRATION                                  --
 --------------------------------------------------------------------------------
 
+MOD.migrations["1.0.1"] = function()
+  global.beacons = {}
+end
+
 local function on_configuration_changed(event)
   if event.mod_changes[MOD.name] then
     if not global._changed then
@@ -239,6 +335,7 @@ local function on_configuration_changed(event)
     for ver, migration in pairs(MOD.migrations) do
       if not global._changed[ver] and migration(event) then
         global._changed[ver] = true
+        log("Ran migration for " .. ver)
       end
     end
   end

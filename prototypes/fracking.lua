@@ -1,3 +1,4 @@
+require "fracking-beacon"
 require "fracking-drill"
 require "fracking-radar"
 
@@ -27,7 +28,34 @@ local technology = {
     time = 30,
     count = 500
   },
-  order = "z[yaiom]-a[fracking]"
+  order = "z[yaiom]-a[fracking]-a"
 }
 
-data:extend {category, technology}
+local technology_automated = {
+  type = "technology",
+  name = "yaiom-fracking-automated",
+  icon_size = 128,
+  icon = "__yaiom__/graphics/fracking/technology.png",
+  effects = {
+    {
+      type = "unlock-recipe",
+      recipe = "yaiom-fracking-beacon"
+    }
+  },
+  prerequisites = {"yaiom-fracking", "effect-transmission"},
+  unit = {
+    ingredients = {
+      {"science-pack-1", 1},
+      {"science-pack-2", 1},
+      {"science-pack-3", 1},
+      {"production-science-pack", 1},
+      {"high-tech-science-pack", 1},
+      {"space-science-pack", 1}
+    },
+    time = 60,
+    count = 3000
+  },
+  order = "z[yaiom]-a[fracking]-b"
+}
+
+data:extend {category, technology, technology_automated}

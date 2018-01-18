@@ -126,7 +126,7 @@ local recipe_clean = {
   }
 }
 
-local technology_basic = {
+local technology = {
   type = "technology",
   name = "yaiom-ferricupric",
   icon_size = 128,
@@ -279,7 +279,7 @@ data:extend {
   entity,
   fluid,
   recipe_clean,
-  technology_basic,
+  technology,
   item,
   recipe_process,
   recipe_iron,
