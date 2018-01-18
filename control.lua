@@ -68,6 +68,7 @@ local function scan_chunk(surface, chunk, force)
   return true
 end
 
+-- scans all chunks, for the impatient player
 local function scan_all_chunks()
   for _, surface in pairs(game.surfaces) do
     surface.regenerate_entity("yaiom-ferricupric")
@@ -87,6 +88,7 @@ function MOD.commands.yaiom_scan(event)
   end
 end
 
+-- delete any originally generating ore, if that mechanic is active
 local function on_chunk_generated(event)
   if not enabled then
     return
@@ -125,6 +127,8 @@ local function on_chunk_generated(event)
   table.insert(random[s], {x = x, y = y})
 end
 
+-- on sector scanned with our dummy radars
+-- pick a target chunk, scan it, remove from queue(s)
 local function on_sector_scanned(event)
   if not enabled then
     return
@@ -163,6 +167,7 @@ local function on_sector_scanned(event)
       return
     end
 
+    -- balance, make the satellites be on a logarithmic scale
     local satellites = force.get_item_launched("satellite") or 0
     if satellites < 1 then
       return
@@ -173,9 +178,12 @@ local function on_sector_scanned(event)
     end
 
     for i = #targets, 1, -1 do
+      -- Fisher-Yates for a random pick...
       local j = math.random(i)
       targets[i], targets[j] = targets[j], targets[i]
 
+      -- but then treat it as a target chunk
+      -- remove if visible and scan it
       local chunk = targets[i]
       if force.is_chunk_charted(surface, chunk) then
         table.remove(targets, i)
@@ -190,6 +198,7 @@ local function on_sector_scanned(event)
   end
 end
 
+-- blow up extraneous beacons (balance reasons + looks cool)
 local function on_build_entity(event)
   local entity = event.created_entity
   if not (entity and entity.valid and entity.name == "yaiom-fracking-beacon") then
@@ -205,12 +214,15 @@ local function on_build_entity(event)
     }
   ) do
     if beacon ~= entity then
-      beacon.die()
+      beacon.die() -- yes, die, I want the alert and the bang
     end
   end
 end
 
+-- chunk regen smoothing function
 local function on_tick(event)
+  -- TODO: make this a setting?
+  -- TODO: make this dynamic (depending on queue size?)?
   if not (enabled and event.tick % 6 == 0) then
     return
   end
@@ -256,7 +268,8 @@ script.on_event(defines.events.on_tick, on_tick)
 --                                 INTERFACE                                  --
 --############################################################################--
 
-MOD.migrations["1.0.1"] = function()
+-- added random table, for satellite scanning
+MOD.migrations["1.0.0"] = function()
   global.random = {}
   for surface, sc in pairs(chunks) do
     random[surface] = {}
