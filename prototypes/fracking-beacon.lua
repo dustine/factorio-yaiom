@@ -17,7 +17,7 @@ entity.energy_per_sector = "125MJ"
 -- entity.energy_per_sector = "5kJ"
 entity.max_distance_of_sector_revealed = 0
 entity.max_distance_of_nearby_sector_revealed = 0
--- entity.energy_per_nearby_scan = "1kJ"
+entity.energy_per_nearby_scan = "1kJ"
 entity.energy_usage = "5kW"
 -- log(serpent.block(entity.pictures))
 entity.integration_patch = nil

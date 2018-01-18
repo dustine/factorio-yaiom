@@ -340,18 +340,18 @@ MOD.migrations["1.0.0"] = function()
 end
 
 local function on_configuration_changed(event)
-  log(serpent.line(event))
   if event.mod_changes[MOD.name] then
     if not global._changed then
       global._changed = {}
     end
-    log(serpent.line(MOD.migrations))
-    log(serpent.line(global._changed))
     for ver, migration in pairs(MOD.migrations) do
-      log(ver)
-      if not global._changed[ver] and migration(event) then
-        global._changed[ver] = true
-        log("Ran migration for " .. ver)
+      if not global._changed[ver] then
+        if migration(event) then
+          global._changed[ver] = true
+          log("Ran migration for " .. ver)
+        else
+          log("Failed migration for " .. ver)
+        end
       end
     end
   end
