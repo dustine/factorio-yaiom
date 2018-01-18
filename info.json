@@ -6,5 +6,5 @@
     "author": "Dustine",
     "dependencies": ["base >= 0.16.0"],
     "homepage": "https://forums.factorio.com/56737",
-    "description": "Inspired by Rimworld's ground-penetrating scanner, use enhanced radars and eventually satellite coverage to uncover hidden ore patches that require both fracking and special refining to process, giving access to an infinite source for ores such as copper or iron (with traces of coal)."
+    "description": "Inspired by Rimworld's ground-penetrating scanner, use enhanced radars and eventually satellite coverage to uncover hidden ore patches that require both fracking and special refining to process, giving you either infinite copper or iron (with traces of coal)."
 }
