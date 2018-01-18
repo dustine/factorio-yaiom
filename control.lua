@@ -268,20 +268,6 @@ script.on_event(defines.events.on_tick, on_tick)
 --                                 INTERFACE                                  --
 --############################################################################--
 
--- added random table, for satellite scanning
-MOD.migrations["1.0.0"] = function()
-  global.random = {}
-  for surface, sc in pairs(chunks) do
-    random[surface] = {}
-    local rs = random[surface]
-    for x, xc in pairs(sc) do
-      for y, _ in pairs(xc) do
-        table.insert(rs, {x = x, y = y})
-      end
-    end
-  end
-end
-
 local function reload_settings()
   local prev = global.enabled
   global.enabled = not settings.global["yaiom-reveal-all"].value
@@ -336,16 +322,33 @@ end
 --                                 MIGRATION                                  --
 --------------------------------------------------------------------------------
 
-MOD.migrations["1.0.1"] = function()
-  global.beacons = {}
+-- added random table, for satellite scanning
+MOD.migrations["1.0.0"] = function()
+  global.random = {}
+  local r = global.random
+  for surface, sc in pairs(chunks) do
+    r[surface] = {}
+    local rs = r[surface]
+    for x, xc in pairs(sc) do
+      for y, _ in pairs(xc) do
+        table.insert(rs, {x = x, y = y})
+      end
+    end
+  end
+
+  return true
 end
 
 local function on_configuration_changed(event)
+  log(serpent.line(event))
   if event.mod_changes[MOD.name] then
     if not global._changed then
       global._changed = {}
     end
+    log(serpent.line(MOD.migrations))
+    log(serpent.line(global._changed))
     for ver, migration in pairs(MOD.migrations) do
+      log(ver)
       if not global._changed[ver] and migration(event) then
         global._changed[ver] = true
         log("Ran migration for " .. ver)
