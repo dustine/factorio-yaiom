@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.0
+Date: 19.01.2018
+  Minor features:
+    - Already existing savegames (without the mod) will retroactively contain deep ore (hidden or not)
+  Bugfixes:
+    - Hidden ores now spawn by default on modded surfaces (autoplace.default_enabled is now true)
+---------------------------------------------------------------------------------------------------
 Version: 1.1.0
 Date: 18.01.2018
   Major features:

@@ -49,7 +49,6 @@ local entity = {
     -- z so it spawns beneath all other ores
     order = "z[yaiom]-a[ferricupric]",
     control = "yaiom-ferricupric",
-    default_enabled = false,
     sharpness = 1,
     richness_multiplier = 5000, -- 3000
     richness_multiplier_distance_bonus = 200, -- 30

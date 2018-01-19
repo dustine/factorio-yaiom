@@ -78,13 +78,25 @@ local function scan_all_chunks()
   end
 
   global.chunks = {}
+  global.random = {}
   chunks = global.chunks
+  random = global.random
 end
 
 function MOD.commands.yaiom_scan(event)
   local player = game.players[event.player_index]
   if player and player.admin then
-    scan_all_chunks(player.force)
+    scan_all_chunks()
+  end
+end
+
+local function save_chunk(s, x, y)
+  if not (chunks[s] and chunks[s][x] and chunks[s][x][y]) then
+    chunks[s] = chunks[s] or {}
+    chunks[s][x] = chunks[s][x] or {}
+    chunks[s][x][y] = true
+    random[s] = random[s] or {}
+    table.insert(random[s], {x = x, y = y})
   end
 end
 
@@ -119,12 +131,7 @@ local function on_chunk_generated(event)
     end
   end
 
-  local s = surface.name
-  chunks[s] = chunks[s] or {}
-  chunks[s][x] = chunks[s][x] or {}
-  chunks[s][x][y] = true
-  random[s] = random[s] or {}
-  table.insert(random[s], {x = x, y = y})
+  save_chunk(surface.name, x, y)
 end
 
 -- on sector scanned with our dummy radars
@@ -223,7 +230,7 @@ end
 local function on_tick(event)
   -- TODO: make this a setting?
   -- TODO: make this dynamic (depending on queue size?)?
-  if not (enabled and event.tick % 6 == 0) then
+  if not (enabled and event.tick % 20 == 0) then
     return
   end
 
@@ -287,7 +294,6 @@ local function on_load()
 end
 
 local function on_init()
-  global._changed = {}
   global.chunks = {}
   global.queued = {}
   global.radars = {}
@@ -296,6 +302,17 @@ local function on_init()
   reload_settings()
   on_load()
 
+  if enabled then
+    for s, surface in pairs(game.surfaces) do
+      for chunk in surface.get_chunks() do
+        save_chunk(s, chunk.x, chunk.y)
+      end
+    end
+  else
+    scan_all_chunks()
+  end
+
+  global._changed = {}
   for ver, _ in pairs(MOD.migrations) do
     global._changed[ver] = true
   end
