@@ -148,6 +148,9 @@ local function on_sector_scanned(event)
 
   local surface = radar.surface
   local force = radar.force
+  if not (surface and surface.valid and force and force.valid) then
+    return
+  end
 
   if radar.name == "yaiom-fracking-radar" then
     local id = radar.unit_number
@@ -214,13 +217,16 @@ local function on_build_entity(event)
 
   local surface = entity.surface
   local force = entity.force
+  if not (surface and surface.valid and force and force.valid) then
+    return
+  end
   for _, beacon in pairs(
     surface.find_entities_filtered {
       name = "yaiom-fracking-beacon",
       force = force
     }
   ) do
-    if beacon ~= entity then
+    if beacon.valid and beacon ~= entity then
       beacon.die() -- yes, die, I want the alert and the bang
     end
   end
@@ -246,6 +252,9 @@ local function on_tick(event)
   end
   local chunk = target.chunk
   local force = target.force
+  if not force.valid then
+    return
+  end
 
   surface.regenerate_entity({"yaiom-ferricupric"}, {chunk})
   if force and force.valid then
