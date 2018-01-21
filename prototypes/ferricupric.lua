@@ -194,14 +194,14 @@ local recipe_iron = {
   name = "yaiom-ferricupric-iron",
   category = "centrifuging",
   enabled = false,
-  energy_required = 50,
+  energy_required = 100,
   ingredients = {
-    {type = "item", name = "yaiom-ferricupric", amount = 500},
+    {type = "item", name = "yaiom-ferricupric", amount = 1000},
     {type = "item", name = "uranium-235", amount = 1}
   },
   results = {
-    {type = "item", name = "iron-ore", amount = 400},
-    {type = "item", name = "copper-ore", amount = 100},
+    {type = "item", name = "iron-ore", amount = 800},
+    {type = "item", name = "copper-ore", amount = 200},
     {type = "item", name = "uranium-238", amount = 1, probability = 0.987}
   },
   icon = "__base__/graphics/icons/icons-new/iron-ore.png",
@@ -216,14 +216,14 @@ local recipe_copper = {
   name = "yaiom-ferricupric-copper",
   category = "centrifuging",
   enabled = false,
-  energy_required = 50,
+  energy_required = 100,
   ingredients = {
-    {type = "item", name = "yaiom-ferricupric", amount = 500},
+    {type = "item", name = "yaiom-ferricupric", amount = 1000},
     {type = "item", name = "uranium-235", amount = 1}
   },
   results = {
-    {type = "item", name = "copper-ore", amount = 400},
-    {type = "item", name = "iron-ore", amount = 100},
+    {type = "item", name = "copper-ore", amount = 800},
+    {type = "item", name = "iron-ore", amount = 200},
     {type = "item", name = "uranium-238", amount = 1, probability = 0.987}
   },
   icon = "__base__/graphics/icons/icons-new/copper-ore.png",
