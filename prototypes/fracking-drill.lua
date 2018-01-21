@@ -26,10 +26,10 @@ local drill = {
   energy_source = {
     type = "electric",
     -- will produce this much * energy pollution units per tick
-    emissions = 0.15,
+    emissions = 1 / 9,
     usage_priority = "secondary-input"
   },
-  energy_usage = "340kW",
+  energy_usage = "612kW",
   input_fluid_box = {
     production_type = "input-output",
     pipe_picture = assembler2pipepictures(),
@@ -51,12 +51,12 @@ local drill = {
       {position = {-0.5, -1.5}}
     }
   },
-  mining_speed = 1,
-  mining_power = 2,
+  mining_speed = 1.25,
+  mining_power = 3,
   resource_searching_radius = 0.99,
   vector_to_place_result = {0, 0},
   module_specification = {
-    module_slots = 2
+    module_slots = 4
   },
   -- allowed_effects = {"consumption", "speed", "pollution"},
   radius_visualisation_picture = {

@@ -196,13 +196,13 @@ local recipe_iron = {
   enabled = false,
   energy_required = 50,
   ingredients = {
-    {type = "item", name = "yaiom-ferricupric", amount = 250},
+    {type = "item", name = "yaiom-ferricupric", amount = 500},
     {type = "item", name = "uranium-235", amount = 1}
   },
   results = {
-    {type = "item", name = "iron-ore", amount = 200},
-    {type = "item", name = "copper-ore", amount = 50},
-    {type = "item", name = "uranium-238", amount = 1}
+    {type = "item", name = "iron-ore", amount = 400},
+    {type = "item", name = "copper-ore", amount = 100},
+    {type = "item", name = "uranium-238", amount = 1, probability = 0.987}
   },
   icon = "__base__/graphics/icons/icons-new/iron-ore.png",
   icon_size = 32,
@@ -218,13 +218,13 @@ local recipe_copper = {
   enabled = false,
   energy_required = 50,
   ingredients = {
-    {type = "item", name = "yaiom-ferricupric", amount = 250},
+    {type = "item", name = "yaiom-ferricupric", amount = 500},
     {type = "item", name = "uranium-235", amount = 1}
   },
   results = {
-    {type = "item", name = "copper-ore", amount = 200},
-    {type = "item", name = "iron-ore", amount = 50},
-    {type = "item", name = "uranium-238", amount = 1}
+    {type = "item", name = "copper-ore", amount = 400},
+    {type = "item", name = "iron-ore", amount = 100},
+    {type = "item", name = "uranium-238", amount = 1, probability = 0.987}
   },
   icon = "__base__/graphics/icons/icons-new/copper-ore.png",
   icon_size = 32,
