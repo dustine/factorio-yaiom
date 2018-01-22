@@ -17,7 +17,7 @@ local entity = {
   icon = "__yaiom__/graphics/ferricupric/icon.png",
   icon_size = 32,
   flags = {"placeable-neutral"},
-  collision_box = {{-0.45, -0.45}, {0.45, 0.45}},
+  collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
   selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
   category = "yaiom-fracking",
   order = "z[yaiom]-b[ferricupric]",
@@ -47,14 +47,13 @@ local entity = {
   },
   autoplace = {
     -- z so it spawns beneath all other ores
-    order = "z[yaiom]-a[ferricupric]",
     control = "yaiom-ferricupric",
     sharpness = 1,
     richness_multiplier = 5000, -- 3000
     richness_multiplier_distance_bonus = 200, -- 30
     richness_base = 2000, -- 500
-    coverage = 0.003 / 3, -- (0, 1], 0.0002 / 3
-    -- coverage = 1,
+    coverage = 0.018,
+    starting_area_size = 0,
     peaks = {
       {
         noise_layer = "yaiom-ferricupric",
@@ -85,6 +84,11 @@ local entity = {
   },
   map_color = util.color "00bfff"
 }
+-- log(serpent.block(data.raw.resource["iron-ore"].autoplace))
+-- log(serpent.block(entity.autoplace))
+-- entity.autoplace = table.deepcopy(data.raw.resource["iron-ore"].autoplace)
+-- entity.autoplace.control = "yaiom-ferricupric"
+-- entity.autoplace.peaks[1].noise_layer = "yaiom-ferricupric"
 
 local fluid = table.deepcopy(data.raw.fluid["light-oil"])
 fluid.name = "yaiom-ferricupric"
