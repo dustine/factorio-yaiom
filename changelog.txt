@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.2
+Date: 22.01.2018
+  Balancing:
+    - Increased ferricupric mining speed by 2.5x (faster mining speed and power on miners).
+    - Hydraulic miners now can have up to 4 modules now.
+    - Advanced processing uses 1000 ore (x4) per enriched uranium, but takes twice as long now.
+---------------------------------------------------------------------------------------------------
 Version: 1.2.1
 Date: 19.01.2018
   Bugfixes:
