@@ -14,8 +14,7 @@ entity.max_distance_of_sector_revealed = 0
 entity.max_distance_of_nearby_sector_revealed = 0
 entity.energy_per_nearby_scan = "1MJ"
 entity.energy_usage = "10.25MW"
-entity.pictures.layers[1].tint = util.color "00bfff"
-entity.pictures.layers[1].hr_version.tint = util.color "00bfff"
+entity.pictures.tint = util.color "00bfff"
 
 local item = {
   type = "item",
