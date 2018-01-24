@@ -5,8 +5,7 @@ MOD.migrations = {}
 MOD.interfaces = {}
 MOD.commands = {}
 
--- local util = require "util"
-local chunks, queued, radars, enabled, random
+local enabled
 
 -- local function get_spiral_index(x, y)
 --   local pos = x > -y
@@ -50,6 +49,7 @@ local function scan_chunk(surface, chunk, force)
     return false
   end
 
+  local chunks = global.chunks
   local s = surface.name
   local x = chunk.x
   local y = chunk.y
@@ -57,7 +57,7 @@ local function scan_chunk(surface, chunk, force)
     return false
   end
 
-  table.insert(queued, {surface = surface, chunk = chunk, force = force})
+  table.insert(global.queued, {surface = surface, chunk = chunk, force = force})
   chunks[s][x][y] = nil
   if not next(chunks[s][x]) then
     chunks[s][x] = nil
@@ -79,8 +79,6 @@ local function scan_all_chunks()
 
   global.chunks = {}
   global.random = {}
-  chunks = global.chunks
-  random = global.random
 end
 
 function MOD.commands.yaiom_scan(event)
@@ -91,10 +89,12 @@ function MOD.commands.yaiom_scan(event)
 end
 
 local function save_chunk(s, x, y)
+  local chunks = global.chunks
   if not (chunks[s] and chunks[s][x] and chunks[s][x][y]) then
     chunks[s] = chunks[s] or {}
     chunks[s][x] = chunks[s][x] or {}
     chunks[s][x][y] = true
+    local random = global.random
     random[s] = random[s] or {}
     table.insert(random[s], {x = x, y = y})
   end
@@ -153,6 +153,7 @@ local function on_sector_scanned(event)
   end
 
   if radar.name == "yaiom-fracking-radar" then
+    local radars = global.radars
     local id = radar.unit_number
     local targets = radars[id]
     if not targets then
@@ -170,6 +171,7 @@ local function on_sector_scanned(event)
     radars[id] = nil
     radar.order_deconstruction(force)
   elseif radar.name == "yaiom-fracking-beacon" then
+    local random = global.random
     local s = surface.name
     random[s] = random[s] or {}
     local targets = random[s]
@@ -240,6 +242,7 @@ local function on_tick(event)
     return
   end
 
+  local queued = global.queued
   local id, target = next(queued)
   if not id then
     return
@@ -295,10 +298,6 @@ local function reload_settings()
 end
 
 local function on_load()
-  chunks = global.chunks
-  queued = global.queued
-  radars = global.radars
-  random = global.random
   enabled = global.enabled
 end
 
@@ -307,7 +306,6 @@ local function on_init()
   global.queued = {}
   global.radars = {}
   global.random = {}
-
   reload_settings()
   on_load()
 
@@ -352,7 +350,7 @@ end
 MOD.migrations["1.0.0"] = function()
   global.random = {}
   local r = global.random
-  for surface, sc in pairs(chunks) do
+  for surface, sc in pairs(global.chunks) do
     r[surface] = {}
     local rs = r[surface]
     for x, xc in pairs(sc) do

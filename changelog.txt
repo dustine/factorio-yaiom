@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.3
+Date: 24.01.2018
+  Bugfixes:
+    - Advanced processing only exported 50 ore per crafting (game limitation, changed recipes but kept throughput as a workaround).
+    - Reworked how variables are indexed so I'm 100% sure desyncs can't be a thing now. For sure.
+    - Beacons took x60 times longer to scan than intended.
+  Balancing:
+    - Increased uranium usage slightly, because of the item stack size bugfix. Sorry!
+---------------------------------------------------------------------------------------------------
 Version: 1.2.2
 Date: 22.01.2018
   Balancing:
@@ -9,25 +18,25 @@ Date: 22.01.2018
 Version: 1.2.1
 Date: 19.01.2018
   Bugfixes:
-    - Possible desync over invalid surface reference
+    - Possible desync over invalid surface reference.
 ---------------------------------------------------------------------------------------------------
 Version: 1.2.0
 Date: 19.01.2018
   Minor features:
-    - Already existing savegames (without the mod) will retroactively contain deep ore (hidden or not)
+    - Already existing savegames (without the mod) will retroactively contain deep ore (hidden or not).
   Bugfixes:
-    - Hidden ores now spawn by default on modded surfaces (autoplace.default_enabled is now true)
+    - Hidden ores now spawn by default on modded surfaces (autoplace.default_enabled is now true).
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.0
 Date: 18.01.2018
   Major features:
-    - Research to allow satellites to scan for deep ore passively (using a beacon to activate this feature)
+    - Research to allow satellites to scan for deep ore passively (using a beacon to activate this feature).
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 17.01.2018
   Major features:
-    - Hidden ores that require deep soil scanners to reveal them, and time
-    - Hydraulic cracking, allows to mine hidden ores with high pressure liquid injection
-    - Ferricupric ore, special hidden ore that can be refined into copper and iron, and coal with further research
+    - Hidden ores that require deep soil scanners to reveal them, and time.
+    - Hydraulic cracking, allows to mine hidden ores with high pressure liquid injection.
+    - Ferricupric ore, special hidden ore that can be refined into copper and iron, and coal with further research.
   Minor features:
-    - Setting to disable satellite hidden ore discovery
+    - Setting to disable satellite hidden ore discovery.

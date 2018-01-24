@@ -8,17 +8,17 @@ entity.icons = {
   }
 }
 entity.corpse = "small-remnants"
-entity.dying_explosion = "medium-explosion"
+entity.dying_explosion = "big-artillery-explosion"
 entity.collision_box = {{-0.4, -0.4}, {0.4, 0.4}}
 entity.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
 entity.drawing_box = {{-0.5, -1.5}, {0.5, 0.5}}
 entity.minable.result = "yaiom-fracking-beacon"
-entity.energy_per_sector = "125MJ"
+entity.energy_per_sector = "2550MJ"
 -- entity.energy_per_sector = "5kJ"
 entity.max_distance_of_sector_revealed = 0
 entity.max_distance_of_nearby_sector_revealed = 0
 entity.energy_per_nearby_scan = "1kJ"
-entity.energy_usage = "5kW"
+entity.energy_usage = "6.12MW"
 -- log(serpent.block(entity.pictures))
 entity.integration_patch = nil
 entity.pictures = {
