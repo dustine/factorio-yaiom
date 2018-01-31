@@ -4,7 +4,7 @@
     "factorio_version": "0.16",
     "title": "Yet Another Infinite Ore Mechanic",
     "author": "Dustine",
-    "dependencies": ["base >= 0.16.0", "? rso-mod >= 3.5.5", "? angelsprocessing >= 0.0.0"],
+    "dependencies": ["base >= 0.16.0", "? rso-mod >= 3.5.5", "? angelsrefining >= 0.9.0"],
     "homepage": "https://forums.factorio.com/56737",
     "description": "Inspired by Rimworld's ground-penetrating scanner, use enhanced radars and eventually satellite coverage to uncover hidden ore patches that require both fracking and special refining to process, giving you infinite starting-base ore. Compatible with Angel's Processing."
 }

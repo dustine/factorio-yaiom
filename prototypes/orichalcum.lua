@@ -23,9 +23,9 @@ local entity = {
   order = "z[yaiom]-b[orichalcum]",
   infinite = true,
   highlight = true,
-  infinite_depletion_amount = 5,
+  infinite_depletion_amount = 1,
   minimum = 1000,
-  normal = 10000,
+  normal = 2000,
   enable_cliff_removal = false,
   tree_removal_probability = 0,
   cliff_removal_probability = 0,
@@ -37,9 +37,7 @@ local entity = {
       {
         type = "fluid",
         name = "yaiom-orichalcum-fluid",
-        amount_min = 10,
-        amount_max = 10,
-        probability = 1
+        amount = 1
       }
     },
     fluid_amount = 10,
@@ -50,9 +48,9 @@ local entity = {
     order = "z[yaiom]-a[orichalcum]",
     control = "yaiom-orichalcum",
     sharpness = 1,
-    richness_multiplier = 5000, -- 3000
-    richness_multiplier_distance_bonus = 200, -- 30
-    richness_base = 2000, -- 500
+    richness_multiplier = 750, -- 3000
+    richness_multiplier_distance_bonus = 30, -- 30
+    richness_base = 1000, -- 500
     coverage = 0.003 / 3, -- (0, 1], 0.0002 / 3
     -- coverage = 1,
     peaks = {
@@ -92,13 +90,13 @@ fluid.icon = "__yaiom__/graphics/orichalcum/fluid.png"
 fluid.base_color = util.color "c3ad7d"
 -- fluid.flow_color = util.color "a78a4d"
 fluid.flow_color = util.color "735f35"
-fluid.order = "z[yaiom]-a[orichalcum]"
+fluid.order = "z[yaiom]-a[orichalcum]-a[base]"
 
 --############################################################################--
---                                   TIER 1                                   --
+--                                   TIER 0                                   --
 --############################################################################--
 
-local recipe_clean = {
+local recipe_cleaning = {
   type = "recipe",
   name = "yaiom-orichalcum-cleaning",
   category = "chemistry",
@@ -151,11 +149,11 @@ local technology = {
     time = 30,
     count = 1000
   },
-  order = "z[yaiom]-b[orichalcum]-a"
+  order = "z[yaiom]-b[orichalcum]-0"
 }
 
 --############################################################################--
---                                   TIER 2                                   --
+--                                   TIER 1                                   --
 --############################################################################--
 
 local item = {
@@ -235,7 +233,7 @@ local recipe_copper = {
 
 local technology_advanced = {
   type = "technology",
-  name = "yaiom-advanced-orichalcum",
+  name = "yaiom-advanced-orichalcum-1",
   icon_size = 128,
   icon = "__yaiom__/graphics/orichalcum/technology-advanced.png",
   effects = {
@@ -252,7 +250,8 @@ local technology_advanced = {
       recipe = "yaiom-orichalcum-copper"
     }
   },
-  prerequisites = {"yaiom-orichalcum", "nuclear-fuel-reprocessing"},
+  -- prerequisites = {"yaiom-orichalcum", "nuclear-fuel-reprocessing"},
+  prerequisites = {"yaiom-orichalcum"},
   unit = {
     ingredients = {
       {"science-pack-1", 1},
@@ -264,20 +263,20 @@ local technology_advanced = {
     time = 45,
     count = 2000
   },
-  order = "z[yaiom]-b[orichalcum]-b"
+  order = "z[yaiom]-b[orichalcum]-1"
 }
 
-for _, module in pairs({"productivity-module", "productivity-module-2", "productivity-module-3"}) do
-  table.insert(data.raw.module[module].limitation, "yaiom-orichalcum-cleaning")
-  table.insert(data.raw.module[module].limitation, "yaiom-orichalcum-processing")
-end
+-- for _, module in pairs({"productivity-module", "productivity-module-2", "productivity-module-3"}) do
+--   table.insert(data.raw.module[module].limitation, "yaiom-orichalcum-cleaning")
+--   table.insert(data.raw.module[module].limitation, "yaiom-orichalcum-processing")
+-- end
 
 data:extend {
   noise_layer,
   control,
   entity,
   fluid,
-  recipe_clean,
+  recipe_cleaning,
   technology,
   item,
   recipe_process,
@@ -285,3 +284,4 @@ data:extend {
   recipe_copper,
   technology_advanced
 }
+require "orichalcum-refining"

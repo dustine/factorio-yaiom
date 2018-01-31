@@ -363,6 +363,17 @@ MOD.migrations["1.0.0"] = function()
   return true
 end
 
+-- because i changed the ranges of how the ore spawns now, need to normalize all present ore
+MOD.migrations["1.3.0"] = function()
+  for _, surface in pairs(game.surfaces) do
+    for _, ore in pairs(surface.find_entities_filtered{name = "yaiom-orichalcum"}) do
+      ore.amount = math.floor((ore.amount - 1000)/5) + 1000
+    end
+  end
+
+  return true
+end
+
 local function on_configuration_changed(event)
   if event.mod_changes[MOD.name] then
     if not global._changed then

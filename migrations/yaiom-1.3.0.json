@@ -6,7 +6,7 @@
     "item":
     [
         ["yaiom-ferricupric", "yaiom-orichalcum"],
-        ["barrel-yaiom-ferricupric", "barrel-yaiom-orichalcum-fluid"]
+        ["yaiom-ferricupric-barrel", "yaiom-orichalcum-fluid-barrel"]
     ],
     "fluid":
     [
