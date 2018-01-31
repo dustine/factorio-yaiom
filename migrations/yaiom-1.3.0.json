@@ -1,0 +1,26 @@
+{
+    "entity":
+    [
+        ["yaiom-ferricupric", "yaiom-orichalcum"]
+    ],
+    "item":
+    [
+        ["yaiom-ferricupric", "yaiom-orichalcum"]
+    ],
+    "fluid":
+    [
+        ["yaiom-ferricupric", "yaiom-orichalcum-fluid"]
+    ],
+    "recipe":
+    [
+        ["yaiom-ferricupric-cleaning", "yaiom-orichalcum-cleaning"],
+        ["yaiom-ferricupric-processing", "yaiom-orichalcum-processing"],
+        ["yaiom-ferricupric-copper", "yaiom-orichalcum-copper"],
+        ["yaiom-ferricupric-iron", "yaiom-orichalcum-iron"]
+    ],
+    "technology":
+    [
+        ["yaiom-ferricupric", "yaiom-orichalcum"],
+        ["yaiom-advanced-ferricupric", "yaiom-advanced-orichalcum"]
+    ]
+}
