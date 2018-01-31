@@ -3,7 +3,7 @@ local drill = {
   name = "yaiom-fracking-drill",
   icons = {
     {
-      icon = "__base__/graphics/icons/pumpjack.png",
+      icon = "__base__/graphics/icons/burner-mining-drill.png",
       tint = util.color "00bfff"
     }
   },

@@ -36,7 +36,7 @@ local entity = {
     results = {
       {
         type = "fluid",
-        name = "yaiom-orichalcum",
+        name = "yaiom-orichalcum-fluid",
         amount_min = 10,
         amount_max = 10,
         probability = 1
