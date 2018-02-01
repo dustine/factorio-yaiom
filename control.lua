@@ -364,7 +364,7 @@ MOD.migrations["1.0.0"] = function()
 end
 
 -- because i changed the ranges of how the ore spawns now, need to normalize all present ore
-MOD.migrations["1.3.0"] = function()
+MOD.migrations["1.4.0"] = function()
   for _, surface in pairs(game.surfaces) do
     for _, ore in pairs(surface.find_entities_filtered{name = "yaiom-orichalcum"}) do
       ore.amount = math.floor((ore.amount - 1000)/5) + 1000
