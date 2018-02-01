@@ -1,6 +1,18 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.3.0
 Date: 27.01.2018
+  Major features:
+    - Added integration for Angel Refining (the one that adds the new ores)
+    - Renamed the ore to Orichalcum, which was an obvious name for it in retrospect...
+  Balancing:
+    - Doubled light oil usage, so <100% spots will now take more fracking fluid than the sludge they give back (down to 50%, so 2lu per 1lu of Orichalcum).
+    - Added setting for old fracking fluid usage
+    - Patches are slightly less rich now (to incentive exploration just a tad)
+  Bugfixes:
+    - Removed RSO support... for now
+---------------------------------------------------------------------------------------------------
+Version: 1.3.0
+Date: 27.01.2018
   Minor features:
     - Added RSO support
     - Added ru locale (thank you konikovsky!)
