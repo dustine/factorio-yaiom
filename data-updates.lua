@@ -211,6 +211,13 @@ if angelsmods and angelsmods.refining then
   make_recipe_production_enabled("yaiom-orichalcum-cleaning")
   make_recipe_production_enabled("yaiom-orichalcum-processing")
 else
+  for technology in pairs(data.raw.technology) do
+    Recipe("fill-yaiom-orichalcum-sludge-barrel")
+      :remove_unlock()
+    Recipe("empty-yaiom-orichalcum-sludge-barrel")
+      :remove_unlock()
+  end
+
   make_recipe_production_enabled("yaiom-orichalcum-cleaning")
   make_recipe_production_enabled("yaiom-orichalcum-processing")
 end

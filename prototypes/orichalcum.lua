@@ -40,7 +40,7 @@ local entity = {
         amount = 1
       }
     },
-    fluid_amount = 10,
+    fluid_amount = settings.startup["yaiom-equivalent-exchange"].value and 5 or 10,
     required_fluid = "light-oil"
   },
   autoplace = {

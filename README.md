@@ -5,6 +5,12 @@ Having issues finding reliable ore spots farther and farther away? Want some sus
 
 Look no further.
 
+## News
+
+- Nerfed patches so they now use double fracking fluid. Sorry. **BUT** I added a mod option, Equivalent Exchange, to re-enable the old behaviour, so no worries!
+- Renamed the ore to Orichalcum, as the name fits better. I'll miss Ferricupric ;-;
+- Added interfacing with Angel's Refining, more forthcoming...
+
 ## Hydraulic fracturing
 
 When you generate a map with this mod on, you may notice that there's blue/green/pink/... ores on the map generation preview, but once you're within the game, you can't find them.
@@ -19,7 +25,7 @@ Researching **Hydraulic fracturing** (fracking) will unlock a *Deep soil scanner
 
 *Note: Ore quantities are exaggerated on this image for display purposes.*
 
-Place one down and let it run, as they take a while. Each scanner takes at most around an hour in real time to finish scanning to its fullest width (2 minutes per chunk), and then deconstruct itself once done. 
+Place one down and let it run, as they take a while. Each scanner takes at most around an hour in real time to finish scanning to its fullest width (2 minutes per chunk), and then deconstruct itself once done.
 
 Deep soil scanners won't scan chunks that have already been scanned (and revealed any deep ores), so spamming them around the terrain is the most efficient way to uncover the hidden ore.
 
@@ -31,24 +37,26 @@ But to make this happen you'll need to place a *Satellite beacon* on the surface
 
 ## Orichalcum ore
 
-The main mythical ore you find deep underground, being a mixture of hydro-carbonates and traces of both weak ferric and cupric acids. It shows on the minimap as a light blue, for ease of visibility. **In the basegame, it can produce copper, iron, oil side-products and eventually coal.**
+The main mythical ore you find deep underground, being a mixture of hydro-carbonates and traces of both weak ferric and cupric acids. It shows on the minimap as a light blue (or light green, if you have Angel's Refining installed), for ease of visibility. **In the basegame, it can produce copper, iron, oil side-products and eventually coal.** On modded savegames, it will spawn further ores, usually biased for starting and/or massively needed resources.
 
-Requires **light oil** to extract it from the floor, where high yields will require less oil per 1lu of orichalcum sludge (at the mininum yield, you get 1 sludge per 1 light oil used).
+Requires **light oil** to extract it from the floor, where high yields will require less oil per 1lu of orichalcum sludge (at the mininum yield, 50%, you get 1 sludge per 2 light oil used).
 
 An early game setup for the sludge may look like this:
 
-![](https://i.imgur.com/O8LqFss.png)
+![early setup](https://i.imgur.com/vy0ENu9.png)
 
 While a late game setup, requiring more research, may look like this:
 
-![](https://i.imgur.com/n6UtThj.jpg)
+![late setup](https://i.imgur.com/Qo4IvKz.jpg)
 
-*Note*: The earlier setup may still be of use even after unlocking the advanced ore refining, seeing that you get 1:1 on the return of petroleum gas, while you lose on maximum petroleum gas yield with the advanced setup.
+*Note*: The earlier setup may still be of use even after unlocking the advanced ore refining, seeing that you get a higher return of petroleum gas than with further refining.
 
 ## Yet to come
 
 - Better graphics. I know, tinting stuff blue is my signature by now but it looks groddy.
 - Adding dedicated support for big modpacks, such as adding a separate deep ore for tin-lead or integrating with Angel's ore processing more tightly.
+  - Already started with Angel's refining, see [this chart]().
+- RSO compatability. Will come with 2.0.0, I promise, but it'll require a rewrite so may take a tad.
 
 ## Bugs
 
