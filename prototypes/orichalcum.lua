@@ -7,7 +7,7 @@ local control = {
   type = "autoplace-control",
   name = "yaiom-orichalcum",
   richness = true,
-  order = "b-b-z[yaiom]-a[orichalcum]",
+  order = "b-b-z[yaiom]-b[orichalcum]",
   category = "resource"
 }
 
@@ -45,7 +45,7 @@ local entity = {
   },
   autoplace = {
     -- z so it spawns beneath all other ores
-    order = "z[yaiom]-a[orichalcum]",
+    order = "z[yaiom]-b[orichalcum]",
     control = "yaiom-orichalcum",
     sharpness = 1,
     richness_multiplier = 750, -- 3000
@@ -90,7 +90,7 @@ fluid.icon = "__yaiom__/graphics/orichalcum/fluid.png"
 fluid.base_color = util.color "c3ad7d"
 -- fluid.flow_color = util.color "a78a4d"
 fluid.flow_color = util.color "735f35"
-fluid.order = "z[yaiom]-a[orichalcum]-a[base]"
+fluid.order = "z[yaiom]-b[orichalcum]-a[base]"
 
 --############################################################################--
 --                                   TIER 0                                   --
@@ -115,7 +115,7 @@ local recipe_cleaning = {
   },
   subgroup = "fluid-recipes",
   allow_decomposition = false,
-  order = "z[yaiom]-a[orichalcum]-a[cleaning]",
+  order = "z[yaiom]-b[orichalcum]-0-a[cleaning]",
   crafting_machine_tint = {
     primary = util.color "c3ad7d",
     secondary = {r = 0.795, g = 0.805, b = 0.605, a = 0.000}, -- #cacd9a00
@@ -164,7 +164,7 @@ local item = {
   flags = {},
   stack_size = 50,
   subgroup = "raw-resource",
-  order = "z[yaiom]-a[orichalcum]"
+  order = "z[yaiom]-b[orichalcum]-1-a[ore]"
 }
 
 local recipe_process = {
@@ -184,7 +184,7 @@ local recipe_process = {
   },
   main_product = "yaiom-orichalcum",
   subgroup = "fluid-recipes",
-  order = "a[oil-processing]-z[yaiom]-a[orichalcum]-b[processing]"
+  order = "a[oil-processing]-z[yaiom]-b[orichalcum]-1-a[processing]"
 }
 
 local recipe_iron = {
@@ -204,8 +204,8 @@ local recipe_iron = {
   },
   icon = "__base__/graphics/icons/icons-new/iron-ore.png",
   icon_size = 32,
-  subgroup = "raw-material",
-  order = "z[yaiom]-b[orichalcum]-c[iron]",
+  subgroup = "intermediate-product",
+  order = "r[uranium-processing]-c[kovarex-enrichment-process]-z[yaiom]-b[orichalcum]-1-b[iron]",
   allow_decomposition = false
 }
 
@@ -226,8 +226,8 @@ local recipe_copper = {
   },
   icon = "__base__/graphics/icons/icons-new/copper-ore.png",
   icon_size = 32,
-  subgroup = "raw-material",
-  order = "z[yaiom]-b[orichalcum]-d[copper]",
+  subgroup = "intermediate-product",
+  order = "r[uranium-processing]-c[kovarex-enrichment-process]-z[yaiom]-b[orichalcum]-1-c[copper]",
   allow_decomposition = false
 }
 
@@ -250,8 +250,7 @@ local technology_advanced = {
       recipe = "yaiom-orichalcum-copper"
     }
   },
-  -- prerequisites = {"yaiom-orichalcum", "nuclear-fuel-reprocessing"},
-  prerequisites = {"yaiom-orichalcum"},
+  prerequisites = {"yaiom-orichalcum", "nuclear-fuel-reprocessing"},
   unit = {
     ingredients = {
       {"science-pack-1", 1},
@@ -265,11 +264,6 @@ local technology_advanced = {
   },
   order = "z[yaiom]-b[orichalcum]-1"
 }
-
--- for _, module in pairs({"productivity-module", "productivity-module-2", "productivity-module-3"}) do
---   table.insert(data.raw.module[module].limitation, "yaiom-orichalcum-cleaning")
---   table.insert(data.raw.module[module].limitation, "yaiom-orichalcum-processing")
--- end
 
 data:extend {
   noise_layer,

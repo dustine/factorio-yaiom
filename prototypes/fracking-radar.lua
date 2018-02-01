@@ -48,7 +48,6 @@ local recipe = {
   },
   result = "yaiom-fracking-radar",
   enabled = false
-  -- order = "z[yaiom]-a[drill]"
 }
 
 data:extend {entity, item, recipe}

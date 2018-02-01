@@ -63,7 +63,7 @@ local drill = {
     filename = "__base__/graphics/entity/electric-mining-drill/electric-mining-drill-radius-visualization.png",
     width = 12,
     height = 12
-  }
+  },
 }
 drill.animations = table.deepcopy(data.raw["mining-drill"]["burner-mining-drill"].animations)
 for _, a in pairs(drill.animations) do
@@ -102,7 +102,6 @@ local recipe = {
   },
   result = "yaiom-fracking-drill",
   enabled = false
-  -- order = "z[yaiom]-a[drill]"
 }
 
 data:extend {drill, item, recipe}
