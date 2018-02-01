@@ -71,7 +71,7 @@ end
 -- scans all chunks, for the impatient player
 local function scan_all_chunks()
   for _, surface in pairs(game.surfaces) do
-    surface.regenerate_entity("yaiom-ferricupric")
+    surface.regenerate_entity("yaiom-orichalcum")
   end
   for _, force in pairs(game.forces) do
     force.rechart()
@@ -122,7 +122,7 @@ local function on_chunk_generated(event)
 
   for _, entity in pairs(
     surface.find_entities_filtered {
-      name = "yaiom-ferricupric",
+      name = "yaiom-orichalcum",
       area = area
     }
   ) do
@@ -259,7 +259,7 @@ local function on_tick(event)
     return
   end
 
-  surface.regenerate_entity({"yaiom-ferricupric"}, {chunk})
+  surface.regenerate_entity("yaiom-orichalcum", {chunk})
   if force and force.valid then
     force.chart(
       surface,
@@ -357,6 +357,17 @@ MOD.migrations["1.0.0"] = function()
       for y, _ in pairs(xc) do
         table.insert(rs, {x = x, y = y})
       end
+    end
+  end
+
+  return true
+end
+
+-- because i changed the ranges of how the ore spawns now, need to normalize all present ore
+MOD.migrations["1.4.0"] = function()
+  for _, surface in pairs(game.surfaces) do
+    for _, ore in pairs(surface.find_entities_filtered{name = "yaiom-orichalcum"}) do
+      ore.amount = math.floor((ore.amount - 1000)/5) + 1000
     end
   end
 

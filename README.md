@@ -29,11 +29,11 @@ If you're tired of having to place and move scanners around, there's the **Orbit
 
 But to make this happen you'll need to place a *Satellite beacon* on the surface you wish to scan and wait, as each passive scan takes a whole Factorio day (~7 minutes), **but can reveal several chunks at once** depending on how many satellites you have in orbit. Just, don't place more than one beacon at a time. Trust me on this one.
 
-## Ferricupric ore
+## Orichalcum ore
 
-The first (and only for now) ore found deep underground, being a mixture of hydro-carbonates and traces of both weak ferric and cupric (iron and copper, hence its name) acids. It shows on the minimap as a light blue, for ease of visibility. **It can produce copper, iron, oil side-products and eventually coal.**
+The main mythical ore you find deep underground, being a mixture of hydro-carbonates and traces of both weak ferric and cupric acids. It shows on the minimap as a light blue, for ease of visibility. **In the basegame, it can produce copper, iron, oil side-products and eventually coal.**
 
-Requires **light oil** to extract it from the floor, where high yields will require less oil per 1lu of ferricupric sludge (at the mininum yield, you get 1 sludge per 1 light oil used).
+Requires **light oil** to extract it from the floor, where high yields will require less oil per 1lu of orichalcum sludge (at the mininum yield, you get 1 sludge per 1 light oil used).
 
 An early game setup for the sludge may look like this:
 

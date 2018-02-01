@@ -1,31 +1,31 @@
 local noise_layer = {
   type = "noise-layer",
-  name = "yaiom-ferricupric"
+  name = "yaiom-orichalcum"
 }
 
 local control = {
   type = "autoplace-control",
-  name = "yaiom-ferricupric",
+  name = "yaiom-orichalcum",
   richness = true,
-  order = "b-b-z[yaiom]-a[ferricupric]",
+  order = "b-b-z[yaiom]-b[orichalcum]",
   category = "resource"
 }
 
 local entity = {
   type = "resource",
-  name = "yaiom-ferricupric",
-  icon = "__yaiom__/graphics/ferricupric/icon.png",
+  name = "yaiom-orichalcum",
+  icon = "__yaiom__/graphics/orichalcum/icon.png",
   icon_size = 32,
   flags = {"placeable-neutral"},
   collision_box = {{-0.45, -0.45}, {0.45, 0.45}},
   selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
   category = "yaiom-fracking",
-  order = "z[yaiom]-b[ferricupric]",
+  order = "z[yaiom]-b[orichalcum]",
   infinite = true,
   highlight = true,
-  infinite_depletion_amount = 5,
+  infinite_depletion_amount = 1,
   minimum = 1000,
-  normal = 10000,
+  normal = 2000,
   enable_cliff_removal = false,
   tree_removal_probability = 0,
   cliff_removal_probability = 0,
@@ -36,10 +36,8 @@ local entity = {
     results = {
       {
         type = "fluid",
-        name = "yaiom-ferricupric",
-        amount_min = 10,
-        amount_max = 10,
-        probability = 1
+        name = "yaiom-orichalcum-fluid",
+        amount = 1
       }
     },
     fluid_amount = 10,
@@ -47,17 +45,17 @@ local entity = {
   },
   autoplace = {
     -- z so it spawns beneath all other ores
-    order = "z[yaiom]-a[ferricupric]",
-    control = "yaiom-ferricupric",
+    order = "z[yaiom]-b[orichalcum]",
+    control = "yaiom-orichalcum",
     sharpness = 1,
-    richness_multiplier = 5000, -- 3000
-    richness_multiplier_distance_bonus = 200, -- 30
-    richness_base = 2000, -- 500
+    richness_multiplier = 750, -- 3000
+    richness_multiplier_distance_bonus = 30, -- 30
+    richness_base = 1000, -- 500
     coverage = 0.003 / 3, -- (0, 1], 0.0002 / 3
     -- coverage = 1,
     peaks = {
       {
-        noise_layer = "yaiom-ferricupric",
+        noise_layer = "yaiom-orichalcum",
         noise_octaves_difference = -0.85 * 3, -- [?,?], -0.85
         noise_persistence = 0.4 -- [0,1], 0.4
       }
@@ -66,14 +64,14 @@ local entity = {
   stage_counts = {0},
   stages = {
     sheet = {
-      filename = "__yaiom__/graphics/ferricupric/entity.png",
+      filename = "__yaiom__/graphics/orichalcum/entity.png",
       priority = "extra-high",
       width = 64,
       height = 64,
       frame_count = 1,
       variation_count = 1,
       hr_version = {
-        filename = "__yaiom__/graphics/ferricupric/hr-entity.png",
+        filename = "__yaiom__/graphics/orichalcum/hr-entity.png",
         priority = "extra-high",
         width = 128,
         height = 128,
@@ -87,28 +85,28 @@ local entity = {
 }
 
 local fluid = table.deepcopy(data.raw.fluid["light-oil"])
-fluid.name = "yaiom-ferricupric"
-fluid.icon = "__yaiom__/graphics/ferricupric/fluid.png"
+fluid.name = "yaiom-orichalcum-fluid"
+fluid.icon = "__yaiom__/graphics/orichalcum/fluid.png"
 fluid.base_color = util.color "c3ad7d"
 -- fluid.flow_color = util.color "a78a4d"
 fluid.flow_color = util.color "735f35"
-fluid.order = "z[yaiom]-a[ferricupric]"
+fluid.order = "z[yaiom]-b[orichalcum]-a[base]"
 
 --############################################################################--
---                                   TIER 1                                   --
+--                                   TIER 0                                   --
 --############################################################################--
 
-local recipe_clean = {
+local recipe_cleaning = {
   type = "recipe",
-  name = "yaiom-ferricupric-cleaning",
+  name = "yaiom-orichalcum-cleaning",
   category = "chemistry",
-  icon = "__yaiom__/graphics/ferricupric/recipe-cleaning.png",
+  icon = "__yaiom__/graphics/orichalcum/recipe-cleaning.png",
   icon_size = 32,
   enabled = false,
   energy_required = 6,
   ingredients = {
     {type = "fluid", name = "water", amount = 30},
-    {type = "fluid", name = "yaiom-ferricupric", amount = 30}
+    {type = "fluid", name = "yaiom-orichalcum-fluid", amount = 30}
   },
   results = {
     {type = "fluid", name = "petroleum-gas", amount = 20},
@@ -117,7 +115,7 @@ local recipe_clean = {
   },
   subgroup = "fluid-recipes",
   allow_decomposition = false,
-  order = "z[yaiom]-a[ferricupric]-a[cleaning]",
+  order = "z[yaiom]-b[orichalcum]-0-a[cleaning]",
   crafting_machine_tint = {
     primary = util.color "c3ad7d",
     secondary = {r = 0.795, g = 0.805, b = 0.605, a = 0.000}, -- #cacd9a00
@@ -127,9 +125,9 @@ local recipe_clean = {
 
 local technology = {
   type = "technology",
-  name = "yaiom-ferricupric",
+  name = "yaiom-orichalcum",
   icon_size = 128,
-  icon = "__yaiom__/graphics/ferricupric/technology.png",
+  icon = "__yaiom__/graphics/orichalcum/technology.png",
   effects = {
     {
       type = "unlock-recipe",
@@ -137,7 +135,7 @@ local technology = {
     },
     {
       type = "unlock-recipe",
-      recipe = "yaiom-ferricupric-cleaning"
+      recipe = "yaiom-orichalcum-cleaning"
     }
   },
   prerequisites = {"yaiom-fracking", "advanced-material-processing-2"},
@@ -151,52 +149,52 @@ local technology = {
     time = 30,
     count = 1000
   },
-  order = "z[yaiom]-b[ferricupric]-a"
+  order = "z[yaiom]-b[orichalcum]-0"
 }
 
 --############################################################################--
---                                   TIER 2                                   --
+--                                   TIER 1                                   --
 --############################################################################--
 
 local item = {
   type = "item",
-  name = "yaiom-ferricupric",
-  icon = "__yaiom__/graphics/ferricupric/icon.png",
+  name = "yaiom-orichalcum",
+  icon = "__yaiom__/graphics/orichalcum/icon.png",
   icon_size = 32,
   flags = {},
   stack_size = 50,
   subgroup = "raw-resource",
-  order = "z[yaiom]-a[ferricupric]"
+  order = "z[yaiom]-b[orichalcum]-1-a[ore]"
 }
 
 local recipe_process = {
   type = "recipe",
-  name = "yaiom-ferricupric-processing",
+  name = "yaiom-orichalcum-processing",
   category = "oil-processing",
   enabled = false,
   energy_required = 5,
   ingredients = {
     {type = "fluid", name = "water", amount = 50},
-    {type = "fluid", name = "yaiom-ferricupric", amount = 100}
+    {type = "fluid", name = "yaiom-orichalcum-fluid", amount = 100}
   },
   results = {
     {type = "fluid", name = "light-oil", amount = 35},
-    {type = "item", name = "yaiom-ferricupric", amount = 10},
+    {type = "item", name = "yaiom-orichalcum", amount = 10},
     {type = "item", name = "coal", amount = 5}
   },
-  main_product = "yaiom-ferricupric",
+  main_product = "yaiom-orichalcum",
   subgroup = "fluid-recipes",
-  order = "a[oil-processing]-z[yaiom]-a[ferricupric]-b[processing]"
+  order = "a[oil-processing]-z[yaiom]-b[orichalcum]-1-a[processing]"
 }
 
 local recipe_iron = {
   type = "recipe",
-  name = "yaiom-ferricupric-iron",
+  name = "yaiom-orichalcum-iron",
   category = "centrifuging",
   enabled = false,
   energy_required = 5,
   ingredients = {
-    {type = "item", name = "yaiom-ferricupric", amount = 50},
+    {type = "item", name = "yaiom-orichalcum", amount = 50},
     {type = "item", name = "uranium-fuel-cell", amount = 1}
   },
   results = {
@@ -206,19 +204,19 @@ local recipe_iron = {
   },
   icon = "__base__/graphics/icons/icons-new/iron-ore.png",
   icon_size = 32,
-  subgroup = "raw-material",
-  order = "z[yaiom]-b[ferricupric]-c[iron]",
+  subgroup = "intermediate-product",
+  order = "r[uranium-processing]-c[kovarex-enrichment-process]-z[yaiom]-b[orichalcum]-1-b[iron]",
   allow_decomposition = false
 }
 
 local recipe_copper = {
   type = "recipe",
-  name = "yaiom-ferricupric-copper",
+  name = "yaiom-orichalcum-copper",
   category = "centrifuging",
   enabled = false,
   energy_required = 5,
   ingredients = {
-    {type = "item", name = "yaiom-ferricupric", amount = 50},
+    {type = "item", name = "yaiom-orichalcum", amount = 50},
     {type = "item", name = "uranium-fuel-cell", amount = 1}
   },
   results = {
@@ -228,31 +226,31 @@ local recipe_copper = {
   },
   icon = "__base__/graphics/icons/icons-new/copper-ore.png",
   icon_size = 32,
-  subgroup = "raw-material",
-  order = "z[yaiom]-b[ferricupric]-d[copper]",
+  subgroup = "intermediate-product",
+  order = "r[uranium-processing]-c[kovarex-enrichment-process]-z[yaiom]-b[orichalcum]-1-c[copper]",
   allow_decomposition = false
 }
 
 local technology_advanced = {
   type = "technology",
-  name = "yaiom-advanced-ferricupric",
+  name = "yaiom-advanced-orichalcum-1",
   icon_size = 128,
-  icon = "__yaiom__/graphics/ferricupric/technology-advanced.png",
+  icon = "__yaiom__/graphics/orichalcum/technology-advanced.png",
   effects = {
     {
       type = "unlock-recipe",
-      recipe = "yaiom-ferricupric-processing"
+      recipe = "yaiom-orichalcum-processing"
     },
     {
       type = "unlock-recipe",
-      recipe = "yaiom-ferricupric-iron"
+      recipe = "yaiom-orichalcum-iron"
     },
     {
       type = "unlock-recipe",
-      recipe = "yaiom-ferricupric-copper"
+      recipe = "yaiom-orichalcum-copper"
     }
   },
-  prerequisites = {"yaiom-ferricupric", "nuclear-fuel-reprocessing"},
+  prerequisites = {"yaiom-orichalcum", "nuclear-fuel-reprocessing"},
   unit = {
     ingredients = {
       {"science-pack-1", 1},
@@ -264,20 +262,15 @@ local technology_advanced = {
     time = 45,
     count = 2000
   },
-  order = "z[yaiom]-b[ferricupric]-b"
+  order = "z[yaiom]-b[orichalcum]-1"
 }
-
-for _, module in pairs({"productivity-module", "productivity-module-2", "productivity-module-3"}) do
-  table.insert(data.raw.module[module].limitation, "yaiom-ferricupric-cleaning")
-  table.insert(data.raw.module[module].limitation, "yaiom-ferricupric-processing")
-end
 
 data:extend {
   noise_layer,
   control,
   entity,
   fluid,
-  recipe_clean,
+  recipe_cleaning,
   technology,
   item,
   recipe_process,
@@ -285,3 +278,4 @@ data:extend {
   recipe_copper,
   technology_advanced
 }
+require "orichalcum-refining"
