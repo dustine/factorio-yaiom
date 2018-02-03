@@ -1,7 +1,7 @@
 {
     "recipe": [
-        ["yaiom-orichalcum-ore-sorting-0-1", "yaiom-orichalcum-ore-sorting-1-1"],
-        ["yaiom-orichalcum-ore-sorting-1-2", "yaiom-orichalcum-ore-sorting-0-2"],
-        ["yaiom-orichalcum-ore-sorting-1-1", "yaiom-orichalcum-ore-sorting-0-1"]
+        ["yaiom-orichalcum-ore-sorting-0-1", "yaiom-orichalcum-ore-sorting-b-1"],
+        ["yaiom-orichalcum-ore-sorting-1-1", "yaiom-orichalcum-ore-sorting-n-1"],
+        ["yaiom-orichalcum-ore-sorting-1-2", "yaiom-orichalcum-ore-sorting-n-2"]
     ]
 }

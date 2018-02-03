@@ -188,21 +188,20 @@ if angelsmods and angelsmods.refining then
 
   local irradiated_name = {"item-name.yaiom-irradiated-orichalcum"}
 
-  finish_sorting_recipe("yaiom-orichalcum-ore-sorting-0-1", {{"angels-ore2-crushed", 2}, {"angels-ore4-crushed", 2}}, "yaiom-sorting", irradiated.icon, ore2_icon, ore4_icon)
-    :set_fields({
-      localised_name = {"recipe-name.yaiom-sorting-2", irradiated_name, {"entity-name.angels-ore2"}, {"entity-name.angels-ore4"}}
-    })
-
-  finish_sorting_recipe("yaiom-orichalcum-ore-sorting-1-1", {{"angels-ore1-crushed", 4}, {"angels-ore4-crushed", 1}}, "yaiom-sorting", irradiated.icon, ore1_icon, ore4_icon)
-    :add_ingredient("catalysator-brown")
+  finish_sorting_recipe("yaiom-orichalcum-ore-sorting-n-1", {{"angels-ore1-crushed", 4}, {"angels-ore4-crushed", 1}}, "yaiom-sorting", irradiated.icon, ore1_icon, ore4_icon)
     :set_fields({
       localised_name = {"recipe-name.yaiom-sorting-2", irradiated_name, {"entity-name.angels-ore1"}, {"entity-name.angels-ore4"}}
     })
 
-  finish_sorting_recipe("yaiom-orichalcum-ore-sorting-1-2", {{"angels-ore3-crushed", 4}, {"angels-ore2-crushed", 1}}, "yaiom-sorting", irradiated.icon, ore3_icon, ore2_icon)
-    :add_ingredient("catalysator-brown")
+  finish_sorting_recipe("yaiom-orichalcum-ore-sorting-n-2", {{"angels-ore3-crushed", 4}, {"angels-ore2-crushed", 1}}, "yaiom-sorting", irradiated.icon, ore3_icon, ore2_icon)
     :set_fields({
       localised_name = {"recipe-name.yaiom-sorting-2", irradiated_name, {"entity-name.angels-ore3"}, {"entity-name.angels-ore2"}}
+    })
+
+  finish_sorting_recipe("yaiom-orichalcum-ore-sorting-b-1", {{"angels-ore2-crushed", 2}, {"angels-ore4-crushed", 2}}, "yaiom-sorting", irradiated.icon, ore2_icon, ore4_icon)
+    :add_ingredient("catalysator-brown")
+    :set_fields({
+      localised_name = {"recipe-name.yaiom-sorting-2", irradiated_name, {"entity-name.angels-ore2"}, {"entity-name.angels-ore4"}}
     })
 
   Technology("yaiom-advanced-orichalcum-2")

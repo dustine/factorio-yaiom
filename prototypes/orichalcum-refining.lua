@@ -70,38 +70,37 @@ data:extend{{
   order = "z[yaiom]-b[orichalcum]-2-a[irradiation]",
 },{
   type = "recipe",
-  name = "yaiom-orichalcum-ore-sorting-0-1",
+  name = "yaiom-orichalcum-ore-sorting-n-1",
   enabled = false,
   energy_required = 1.5,
   ingredients = {
-    {type = "item", name = "yaiom-irradiated-orichalcum", amount = 4},
+    {type = "item", name = "yaiom-irradiated-orichalcum", amount = 5},
   },
   result = "yaiom",
   order = "z[yaiom]-b[orichalcum]-2-b[sorting]-0-1",
   allow_decomposition = false,
 },{
   type = "recipe",
-  name = "yaiom-orichalcum-ore-sorting-1-1",
+  name = "yaiom-orichalcum-ore-sorting-n-2",
+  enabled = false,
+  energy_required = 1.5,
+  ingredients = {
+    {type = "item", name = "yaiom-irradiated-orichalcum", amount = 5},
+  },
+  result = "yaiom",
+  order = "z[yaiom]-b[orichalcum]-2-b[sorting]-0-2",
+  allow_decomposition = false,
+},{
+  type = "recipe",
+  name = "yaiom-orichalcum-ore-sorting-b-1",
   enabled = false,
   energy_required = 2,
   ingredients = {
-    {type = "item", name = "yaiom-irradiated-orichalcum", amount = 5},
+    {type = "item", name = "yaiom-irradiated-orichalcum", amount = 4},
     -- {type = "item", name = "catalysator-brown", amount = 1},
   },
   result = "yaiom",
   order = "z[yaiom]-b[orichalcum]-2-b[sorting]-1-1",
-  allow_decomposition = false,
-},{
-  type = "recipe",
-  name = "yaiom-orichalcum-ore-sorting-1-2",
-  enabled = false,
-  energy_required = 2,
-  ingredients = {
-    {type = "item", name = "yaiom-irradiated-orichalcum", amount = 5},
-    -- {type = "item", name = "catalysator-brown", amount = 1},
-  },
-  result = "yaiom",
-  order = "z[yaiom]-b[orichalcum]-2-b[sorting]-1-2",
   allow_decomposition = false,
 },{
   type = "technology",
@@ -116,15 +115,15 @@ data:extend{{
     },
     {
       type = "unlock-recipe",
-      recipe = "yaiom-orichalcum-ore-sorting-0-1"
+      recipe = "yaiom-orichalcum-ore-sorting-n-1"
     },
     {
       type = "unlock-recipe",
-      recipe = "yaiom-orichalcum-ore-sorting-1-1"
+      recipe = "yaiom-orichalcum-ore-sorting-n-2"
     },
     {
       type = "unlock-recipe",
-      recipe = "yaiom-orichalcum-ore-sorting-1-2"
+      recipe = "yaiom-orichalcum-ore-sorting-b-1"
     },
   },
   prerequisites = {"yaiom-advanced-orichalcum-1", "nuclear-fuel-reprocessing"},
