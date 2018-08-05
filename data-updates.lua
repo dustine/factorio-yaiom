@@ -13,8 +13,10 @@ local Recipe = require "stdlib.data.recipe"
 local Technology = require "stdlib.data.technology"
 
 local function make_recipe_production_enabled(recipe)
-  for _, module in pairs({"productivity-module", "productivity-module-2", "productivity-module-3"}) do
-    table.insert(data.raw.module[module].limitation, recipe)
+  for name, module in pairs(data.raw.module) do
+    if name:find("productivity") and module.limitation then
+      table.insert(module.limitation, recipe)
+    end
   end
 end
 
